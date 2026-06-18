@@ -1,0 +1,1837 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>GM — CRM Rénovation Énergétique</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap');
+
+  :root {
+    --noir: #0A0A0F;
+    --noir2: #12121A;
+    --card: #1A1A26;
+    --card2: #222233;
+    --border: #2A2A40;
+    --vert: #00E5A0;
+    --vert2: #00B87A;
+    --bleu: #4A90FF;
+    --orange: #FF8C42;
+    --rouge: #FF4A6E;
+    --texte: #E8E8F0;
+    --texte2: #8888AA;
+    --texte3: #5555770;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'Inter', sans-serif;
+    background: var(--noir);
+    color: var(--texte);
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  /* ===== PAGE CONNEXION ===== */
+  #page-login {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--noir);
+    position: relative;
+  }
+
+  #page-login::before {
+    content: '';
+    position: absolute;
+    top: -200px; left: 50%;
+    transform: translateX(-50%);
+    width: 600px; height: 600px;
+    background: radial-gradient(circle, rgba(0,229,160,0.08) 0%, transparent 70%);
+    pointer-events: none;
+  }
+
+  .login-box {
+    width: 420px;
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    padding: 48px 40px;
+    position: relative;
+    z-index: 1;
+  }
+
+  .login-logo {
+    text-align: center;
+    margin-bottom: 40px;
+  }
+
+  .login-logo .gm-mark {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 48px;
+    font-weight: 700;
+    color: var(--vert);
+    letter-spacing: -2px;
+    line-height: 1;
+  }
+
+  .login-logo .gm-sub {
+    font-size: 11px;
+    color: var(--texte2);
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    margin-top: 6px;
+  }
+
+  .login-title {
+    font-size: 22px;
+    font-weight: 600;
+    margin-bottom: 6px;
+  }
+
+  .login-desc {
+    font-size: 13px;
+    color: var(--texte2);
+    margin-bottom: 32px;
+  }
+
+  .form-group {
+    margin-bottom: 16px;
+  }
+
+  .form-group label {
+    display: block;
+    font-size: 12px;
+    font-weight: 500;
+    color: var(--texte2);
+    margin-bottom: 8px;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+  }
+
+  .form-group input {
+    width: 100%;
+    background: var(--noir2);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 13px 16px;
+    font-size: 14px;
+    color: var(--texte);
+    font-family: 'Inter', sans-serif;
+    outline: none;
+    transition: border-color 0.2s;
+  }
+
+  .form-group input:focus {
+    border-color: var(--vert);
+  }
+
+  .form-group input::placeholder { color: var(--texte2); }
+
+  .btn-login {
+    width: 100%;
+    background: var(--vert);
+    color: var(--noir);
+    border: none;
+    border-radius: 10px;
+    padding: 14px;
+    font-size: 14px;
+    font-weight: 700;
+    font-family: 'Inter', sans-serif;
+    cursor: pointer;
+    margin-top: 8px;
+    transition: background 0.2s, transform 0.1s;
+    letter-spacing: 0.3px;
+  }
+
+  .btn-login:hover { background: var(--vert2); }
+  .btn-login:active { transform: scale(0.99); }
+
+  .login-error {
+    background: rgba(255,74,110,0.1);
+    border: 1px solid rgba(255,74,110,0.3);
+    border-radius: 8px;
+    padding: 10px 14px;
+    font-size: 13px;
+    color: var(--rouge);
+    margin-top: 12px;
+    display: none;
+  }
+
+  /* ===== LAYOUT PRINCIPAL ===== */
+  #page-app {
+    display: none;
+    min-height: 100vh;
+  }
+
+  .sidebar {
+    position: fixed;
+    top: 0; left: 0;
+    width: 240px;
+    height: 100vh;
+    background: var(--card);
+    border-right: 1px solid var(--border);
+    display: flex;
+    flex-direction: column;
+    z-index: 100;
+  }
+
+  .sidebar-logo {
+    padding: 28px 24px 24px;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .sidebar-logo .gm-mark {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 28px;
+    font-weight: 700;
+    color: var(--vert);
+    letter-spacing: -1px;
+  }
+
+  .sidebar-logo .gm-sub {
+    font-size: 10px;
+    color: var(--texte2);
+    letter-spacing: 2px;
+    text-transform: uppercase;
+  }
+
+  .sidebar-nav {
+    flex: 1;
+    padding: 16px 12px;
+    overflow-y: auto;
+  }
+
+  .nav-section {
+    margin-bottom: 24px;
+  }
+
+  .nav-section-title {
+    font-size: 10px;
+    font-weight: 600;
+    color: var(--texte2);
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    padding: 0 12px;
+    margin-bottom: 8px;
+  }
+
+  .nav-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 12px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--texte2);
+    transition: all 0.15s;
+    margin-bottom: 2px;
+    position: relative;
+  }
+
+  .nav-item:hover { background: var(--card2); color: var(--texte); }
+
+  .nav-item.active {
+    background: rgba(0,229,160,0.1);
+    color: var(--vert);
+  }
+
+  .nav-item .icon { font-size: 16px; width: 20px; text-align: center; }
+
+  .nav-badge {
+    margin-left: auto;
+    background: var(--vert);
+    color: var(--noir);
+    font-size: 10px;
+    font-weight: 700;
+    padding: 2px 7px;
+    border-radius: 20px;
+    min-width: 20px;
+    text-align: center;
+  }
+
+  .nav-badge.orange { background: var(--orange); }
+  .nav-badge.rouge { background: var(--rouge); }
+
+  .sidebar-footer {
+    padding: 16px 12px;
+    border-top: 1px solid var(--border);
+  }
+
+  .user-block {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 12px;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background 0.15s;
+  }
+
+  .user-block:hover { background: var(--card2); }
+
+  .user-avatar {
+    width: 32px; height: 32px;
+    background: var(--vert);
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 12px;
+    font-weight: 700;
+    color: var(--noir);
+    flex-shrink: 0;
+  }
+
+  .user-name { font-size: 13px; font-weight: 600; }
+  .user-role { font-size: 11px; color: var(--texte2); }
+
+  /* ===== CONTENU PRINCIPAL ===== */
+  .main-content {
+    margin-left: 240px;
+    min-height: 100vh;
+    background: var(--noir);
+  }
+
+  .topbar {
+    height: 64px;
+    background: var(--noir);
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 32px;
+    position: sticky;
+    top: 0;
+    z-index: 50;
+  }
+
+  .topbar-title {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 18px;
+    font-weight: 600;
+  }
+
+  .topbar-actions {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .btn-primary {
+    background: var(--vert);
+    color: var(--noir);
+    border: none;
+    border-radius: 8px;
+    padding: 9px 18px;
+    font-size: 13px;
+    font-weight: 700;
+    font-family: 'Inter', sans-serif;
+    cursor: pointer;
+    transition: background 0.2s;
+  }
+
+  .btn-primary:hover { background: var(--vert2); }
+
+  .btn-secondary {
+    background: var(--card2);
+    color: var(--texte);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 9px 18px;
+    font-size: 13px;
+    font-weight: 500;
+    font-family: 'Inter', sans-serif;
+    cursor: pointer;
+    transition: background 0.2s;
+  }
+
+  .btn-secondary:hover { background: var(--border); }
+
+  .page-body {
+    padding: 32px;
+  }
+
+  /* ===== DASHBOARD ===== */
+  .kpi-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 16px;
+    margin-bottom: 32px;
+  }
+
+  .kpi-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 22px 24px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .kpi-card::after {
+    content: '';
+    position: absolute;
+    top: 0; right: 0;
+    width: 60px; height: 60px;
+    border-radius: 0 14px 0 60px;
+    opacity: 0.08;
+  }
+
+  .kpi-card.vert::after { background: var(--vert); }
+  .kpi-card.bleu::after { background: var(--bleu); }
+  .kpi-card.orange::after { background: var(--orange); }
+  .kpi-card.rouge::after { background: var(--rouge); }
+
+  .kpi-label {
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--texte2);
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    margin-bottom: 12px;
+  }
+
+  .kpi-value {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 36px;
+    font-weight: 700;
+    line-height: 1;
+    margin-bottom: 8px;
+  }
+
+  .kpi-card.vert .kpi-value { color: var(--vert); }
+  .kpi-card.bleu .kpi-value { color: var(--bleu); }
+  .kpi-card.orange .kpi-value { color: var(--orange); }
+  .kpi-card.rouge .kpi-value { color: var(--rouge); }
+
+  .kpi-sub {
+    font-size: 12px;
+    color: var(--texte2);
+  }
+
+  /* ===== TABLEAU LEADS ===== */
+  .section-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 16px;
+  }
+
+  .section-title {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 16px;
+    font-weight: 600;
+  }
+
+  .table-container {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    overflow: hidden;
+    margin-bottom: 32px;
+  }
+
+  .table-search {
+    padding: 16px 20px;
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    gap: 12px;
+    align-items: center;
+  }
+
+  .search-input {
+    background: var(--noir2);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 9px 14px;
+    font-size: 13px;
+    color: var(--texte);
+    font-family: 'Inter', sans-serif;
+    outline: none;
+    width: 260px;
+    transition: border-color 0.2s;
+  }
+
+  .search-input:focus { border-color: var(--vert); }
+  .search-input::placeholder { color: var(--texte2); }
+
+  .filter-select {
+    background: var(--noir2);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 9px 14px;
+    font-size: 13px;
+    color: var(--texte);
+    font-family: 'Inter', sans-serif;
+    outline: none;
+    cursor: pointer;
+  }
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+
+  thead th {
+    padding: 12px 20px;
+    text-align: left;
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--texte2);
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    border-bottom: 1px solid var(--border);
+    background: var(--card);
+  }
+
+  tbody tr {
+    border-bottom: 1px solid var(--border);
+    transition: background 0.15s;
+    cursor: pointer;
+  }
+
+  tbody tr:last-child { border-bottom: none; }
+  tbody tr:hover { background: var(--card2); }
+
+  tbody td {
+    padding: 14px 20px;
+    font-size: 13px;
+  }
+
+  .lead-name { font-weight: 600; color: var(--texte); }
+  .lead-info { font-size: 12px; color: var(--texte2); margin-top: 2px; }
+
+  .status-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    padding: 4px 10px;
+    border-radius: 20px;
+    font-size: 11px;
+    font-weight: 600;
+  }
+
+  .status-badge::before {
+    content: '';
+    width: 6px; height: 6px;
+    border-radius: 50%;
+  }
+
+  .status-nouveau { background: rgba(74,144,255,0.15); color: var(--bleu); }
+  .status-nouveau::before { background: var(--bleu); }
+  .status-contact { background: rgba(255,140,66,0.15); color: var(--orange); }
+  .status-contact::before { background: var(--orange); }
+  .status-rdv { background: rgba(0,229,160,0.15); color: var(--vert); }
+  .status-rdv::before { background: var(--vert); }
+  .status-nrp { background: rgba(255,74,110,0.15); color: var(--rouge); }
+  .status-nrp::before { background: var(--rouge); }
+  .status-signe { background: rgba(0,229,160,0.2); color: var(--vert); border: 1px solid rgba(0,229,160,0.3); }
+  .status-signe::before { background: var(--vert); }
+
+  .produit-tag {
+    display: inline-block;
+    background: var(--card2);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 3px 8px;
+    font-size: 11px;
+    color: var(--texte2);
+  }
+
+  .score-bar {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .score-track {
+    flex: 1;
+    height: 4px;
+    background: var(--border);
+    border-radius: 2px;
+    overflow: hidden;
+    max-width: 60px;
+  }
+
+  .score-fill {
+    height: 100%;
+    border-radius: 2px;
+    background: var(--vert);
+  }
+
+  .score-fill.orange { background: var(--orange); }
+  .score-fill.rouge { background: var(--rouge); }
+
+  .score-num {
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--texte2);
+    min-width: 20px;
+  }
+
+  /* ===== PAGES CACHÉES ===== */
+  .page-section { display: none; }
+  .page-section.active { display: block; }
+
+  /* ===== FICHE LEAD ===== */
+  .fiche-grid {
+    display: grid;
+    grid-template-columns: 1fr 340px;
+    gap: 20px;
+  }
+
+  .card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 24px;
+    margin-bottom: 20px;
+  }
+
+  .card-title {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--texte2);
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    margin-bottom: 20px;
+    padding-bottom: 16px;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .field-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+    margin-bottom: 16px;
+  }
+
+  .field-group label {
+    display: block;
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--texte2);
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+    margin-bottom: 6px;
+  }
+
+  .field-value {
+    font-size: 14px;
+    color: var(--texte);
+    font-weight: 500;
+  }
+
+  .timeline {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+  }
+
+  .timeline-item {
+    display: flex;
+    gap: 14px;
+    padding-bottom: 20px;
+    position: relative;
+  }
+
+  .timeline-item:not(:last-child)::after {
+    content: '';
+    position: absolute;
+    left: 15px;
+    top: 32px;
+    bottom: 0;
+    width: 1px;
+    background: var(--border);
+  }
+
+  .timeline-dot {
+    width: 30px;
+    height: 30px;
+    border-radius: 8px;
+    background: var(--card2);
+    border: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 13px;
+    flex-shrink: 0;
+    position: relative;
+    z-index: 1;
+  }
+
+  .timeline-content { flex: 1; }
+
+  .timeline-text {
+    font-size: 13px;
+    color: var(--texte);
+    margin-bottom: 3px;
+  }
+
+  .timeline-date {
+    font-size: 11px;
+    color: var(--texte2);
+  }
+
+  .note-input {
+    width: 100%;
+    background: var(--noir2);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 12px;
+    font-size: 13px;
+    color: var(--texte);
+    font-family: 'Inter', sans-serif;
+    outline: none;
+    resize: vertical;
+    min-height: 80px;
+    margin-bottom: 10px;
+    transition: border-color 0.2s;
+  }
+
+  .note-input:focus { border-color: var(--vert); }
+  .note-input::placeholder { color: var(--texte2); }
+
+  /* ===== PIPELINE KANBAN ===== */
+  .kanban-board {
+    display: flex;
+    gap: 16px;
+    overflow-x: auto;
+    padding-bottom: 16px;
+  }
+
+  .kanban-col {
+    min-width: 240px;
+    flex-shrink: 0;
+  }
+
+  .kanban-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 12px 14px;
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 10px 10px 0 0;
+    border-bottom: 2px solid var(--vert);
+    margin-bottom: 1px;
+  }
+
+  .kanban-header.bleu { border-bottom-color: var(--bleu); }
+  .kanban-header.orange { border-bottom-color: var(--orange); }
+  .kanban-header.rouge { border-bottom-color: var(--rouge); }
+  .kanban-header.violet { border-bottom-color: #A855F7; }
+
+  .kanban-col-title {
+    font-size: 12px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+  }
+
+  .kanban-count {
+    font-size: 11px;
+    font-weight: 700;
+    background: var(--card2);
+    padding: 2px 8px;
+    border-radius: 20px;
+    color: var(--texte2);
+  }
+
+  .kanban-body {
+    background: var(--noir2);
+    border: 1px solid var(--border);
+    border-top: none;
+    border-radius: 0 0 10px 10px;
+    padding: 10px;
+    min-height: 300px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .kanban-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 12px 14px;
+    cursor: pointer;
+    transition: border-color 0.15s, transform 0.15s;
+  }
+
+  .kanban-card:hover {
+    border-color: var(--vert);
+    transform: translateY(-1px);
+  }
+
+  .kanban-card-name {
+    font-size: 13px;
+    font-weight: 600;
+    margin-bottom: 5px;
+  }
+
+  .kanban-card-info {
+    font-size: 11px;
+    color: var(--texte2);
+    margin-bottom: 8px;
+  }
+
+  .kanban-card-footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .kanban-card-tag {
+    font-size: 10px;
+    background: var(--card2);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 2px 6px;
+    color: var(--texte2);
+  }
+
+  .kanban-card-date {
+    font-size: 10px;
+    color: var(--texte2);
+  }
+
+  /* ===== SCRIPT IA ===== */
+  .script-container {
+    display: grid;
+    grid-template-columns: 1fr 380px;
+    gap: 20px;
+  }
+
+  .script-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    overflow: hidden;
+  }
+
+  .script-tabs {
+    display: flex;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .script-tab {
+    padding: 14px 20px;
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--texte2);
+    cursor: pointer;
+    border-bottom: 2px solid transparent;
+    transition: all 0.15s;
+    margin-bottom: -1px;
+  }
+
+  .script-tab.active {
+    color: var(--vert);
+    border-bottom-color: var(--vert);
+  }
+
+  .script-body {
+    padding: 24px;
+  }
+
+  .script-step {
+    margin-bottom: 24px;
+  }
+
+  .script-step-num {
+    font-size: 10px;
+    font-weight: 700;
+    color: var(--vert);
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    margin-bottom: 6px;
+  }
+
+  .script-step-title {
+    font-size: 14px;
+    font-weight: 600;
+    margin-bottom: 10px;
+  }
+
+  .script-step-text {
+    font-size: 13px;
+    color: var(--texte2);
+    line-height: 1.7;
+    background: var(--noir2);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 14px 16px;
+    border-left: 3px solid var(--vert);
+  }
+
+  .script-step-text strong { color: var(--texte); }
+
+  .objection-list {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .objection-item {
+    background: var(--noir2);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    overflow: hidden;
+  }
+
+  .objection-q {
+    padding: 12px 16px;
+    font-size: 13px;
+    font-weight: 500;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-bottom: 1px solid transparent;
+    transition: all 0.15s;
+  }
+
+  .objection-q:hover { background: var(--card2); }
+  .objection-q.open { border-bottom-color: var(--border); color: var(--vert); }
+
+  .objection-a {
+    padding: 12px 16px;
+    font-size: 13px;
+    color: var(--texte2);
+    line-height: 1.6;
+    display: none;
+  }
+
+  .objection-a.open { display: block; }
+
+  .ia-assist {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    height: fit-content;
+    position: sticky;
+    top: 80px;
+  }
+
+  .ia-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 16px;
+    padding-bottom: 16px;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .ia-dot {
+    width: 8px; height: 8px;
+    background: var(--vert);
+    border-radius: 50%;
+    animation: pulse 2s infinite;
+  }
+
+  @keyframes pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.3; }
+  }
+
+  .ia-title {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--vert);
+  }
+
+  .ia-messages {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-bottom: 16px;
+    max-height: 300px;
+    overflow-y: auto;
+  }
+
+  .ia-msg {
+    background: var(--card2);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 12px 14px;
+    font-size: 13px;
+    color: var(--texte);
+    line-height: 1.6;
+  }
+
+  .ia-msg.question {
+    background: rgba(74,144,255,0.1);
+    border-color: rgba(74,144,255,0.3);
+    color: var(--bleu);
+  }
+
+  .ia-input-row {
+    display: flex;
+    gap: 8px;
+  }
+
+  .ia-input {
+    flex: 1;
+    background: var(--noir2);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 10px 12px;
+    font-size: 13px;
+    color: var(--texte);
+    font-family: 'Inter', sans-serif;
+    outline: none;
+    transition: border-color 0.2s;
+  }
+
+  .ia-input:focus { border-color: var(--vert); }
+  .ia-input::placeholder { color: var(--texte2); }
+
+  .ia-send {
+    background: var(--vert);
+    color: var(--noir);
+    border: none;
+    border-radius: 8px;
+    padding: 10px 14px;
+    font-size: 13px;
+    font-weight: 700;
+    cursor: pointer;
+    font-family: 'Inter', sans-serif;
+    transition: background 0.2s;
+  }
+
+  .ia-send:hover { background: var(--vert2); }
+
+  /* ===== EMPTY STATE ===== */
+  .empty-state {
+    text-align: center;
+    padding: 60px 20px;
+    color: var(--texte2);
+  }
+
+  .empty-state .icon { font-size: 40px; margin-bottom: 16px; }
+  .empty-state h3 { font-size: 16px; font-weight: 600; color: var(--texte); margin-bottom: 8px; }
+  .empty-state p { font-size: 13px; }
+
+  /* SCROLLBAR */
+  ::-webkit-scrollbar { width: 6px; height: 6px; }
+  ::-webkit-scrollbar-track { background: transparent; }
+  ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
+  ::-webkit-scrollbar-thumb:hover { background: var(--texte2); }
+</style>
+</head>
+<body>
+
+<!-- ===== PAGE CONNEXION ===== -->
+<div id="page-login">
+  <div class="login-box">
+    <div class="login-logo">
+      <div class="gm-mark">GM</div>
+      <div class="gm-sub">CRM Rénovation Énergétique</div>
+    </div>
+    <div class="login-title">Connexion</div>
+    <div class="login-desc">Accès réservé aux équipes LEDAS PV</div>
+
+    <div class="form-group">
+      <label>Email</label>
+      <input type="email" id="login-email" placeholder="votre@email.com" autocomplete="off">
+    </div>
+    <div class="form-group">
+      <label>Mot de passe</label>
+      <input type="password" id="login-pwd" placeholder="••••••••">
+    </div>
+    <button class="btn-login" onclick="login()">Se connecter</button>
+    <div class="login-error" id="login-error">Email ou mot de passe incorrect.</div>
+  </div>
+</div>
+
+<!-- ===== APPLICATION ===== -->
+<div id="page-app">
+
+  <!-- SIDEBAR -->
+  <div class="sidebar">
+    <div class="sidebar-logo">
+      <div class="gm-mark">GM</div>
+      <div class="gm-sub">CRM Énergie</div>
+    </div>
+
+    <nav class="sidebar-nav">
+      <div class="nav-section">
+        <div class="nav-section-title">Principal</div>
+        <div class="nav-item active" onclick="showPage('dashboard', this)">
+          <span class="icon">📊</span> Tableau de bord
+        </div>
+        <div class="nav-item" onclick="showPage('pipeline', this)">
+          <span class="icon">🔄</span> Pipeline
+          <span class="nav-badge">7</span>
+        </div>
+      </div>
+
+      <div class="nav-section">
+        <div class="nav-section-title">Prospection</div>
+        <div class="nav-item" onclick="showPage('leads', this)">
+          <span class="icon">👥</span> Leads
+          <span class="nav-badge orange">3</span>
+        </div>
+        <div class="nav-item" onclick="showPage('scripts', this)">
+          <span class="icon">🎯</span> Scripts + IA
+        </div>
+        <div class="nav-item" onclick="showPage('rdvs', this)">
+          <span class="icon">📅</span> RDV
+          <span class="nav-badge">2</span>
+        </div>
+      </div>
+
+      <div class="nav-section">
+        <div class="nav-section-title">Dossiers</div>
+        <div class="nav-item" onclick="showPage('dossiers', this)">
+          <span class="icon">📁</span> Dossiers CEE
+        </div>
+        <div class="nav-item" onclick="showPage('clients', this)">
+          <span class="icon">🏠</span> Clients
+        </div>
+      </div>
+
+      <div class="nav-section">
+        <div class="nav-section-title">Admin</div>
+        <div class="nav-item" onclick="showPage('stats', this)">
+          <span class="icon">📈</span> Statistiques
+        </div>
+        <div class="nav-item" onclick="showPage('produits', this)">
+          <span class="icon">⚡</span> Produits CEE
+        </div>
+      </div>
+    </nav>
+
+    <div class="sidebar-footer">
+      <div class="user-block" onclick="logout()">
+        <div class="user-avatar" id="user-avatar">A</div>
+        <div>
+          <div class="user-name" id="user-name">Admin</div>
+          <div class="user-role">Administrateur</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- CONTENU -->
+  <div class="main-content">
+
+    <!-- TOPBAR -->
+    <div class="topbar">
+      <div class="topbar-title" id="topbar-title">Tableau de bord</div>
+      <div class="topbar-actions">
+        <button class="btn-secondary" onclick="showPage('leads', document.querySelector('.nav-item:nth-child(1)'))">+ Nouveau lead</button>
+        <button class="btn-primary" onclick="showPage('scripts', document.querySelector('.nav-item:nth-child(1)'))">🎯 Lancer une session</button>
+      </div>
+    </div>
+
+    <div class="page-body">
+
+      <!-- DASHBOARD -->
+      <div class="page-section active" id="sec-dashboard">
+        <div class="kpi-grid">
+          <div class="kpi-card vert">
+            <div class="kpi-label">Leads actifs</div>
+            <div class="kpi-value">24</div>
+            <div class="kpi-sub">+3 cette semaine</div>
+          </div>
+          <div class="kpi-card bleu">
+            <div class="kpi-label">RDV planifiés</div>
+            <div class="kpi-value">7</div>
+            <div class="kpi-sub">2 aujourd'hui</div>
+          </div>
+          <div class="kpi-card orange">
+            <div class="kpi-label">À rappeler</div>
+            <div class="kpi-value">11</div>
+            <div class="kpi-sub">Dont 4 urgents</div>
+          </div>
+          <div class="kpi-card rouge">
+            <div class="kpi-label">Dossiers signés</div>
+            <div class="kpi-value">3</div>
+            <div class="kpi-sub">Ce mois-ci</div>
+          </div>
+        </div>
+
+        <div class="section-header">
+          <div class="section-title">Derniers leads</div>
+          <button class="btn-secondary" onclick="showPage('leads', document.querySelectorAll('.nav-item')[2])">Voir tous</button>
+        </div>
+
+        <div class="table-container">
+          <div class="table-search">
+            <input class="search-input" type="text" placeholder="🔍 Rechercher un lead...">
+            <select class="filter-select">
+              <option>Tous les statuts</option>
+              <option>Nouveau</option>
+              <option>Contacté</option>
+              <option>RDV pris</option>
+              <option>NRP</option>
+            </select>
+            <select class="filter-select">
+              <option>Tous les produits</option>
+              <option>PAC Air/Eau</option>
+              <option>Isolation</option>
+              <option>Rénovation ampleur</option>
+              <option>VMC</option>
+            </select>
+          </div>
+          <table>
+            <thead>
+              <tr>
+                <th>Prospect</th>
+                <th>Statut</th>
+                <th>Produit</th>
+                <th>Département</th>
+                <th>Score</th>
+                <th>Date</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr onclick="showPage('fiche', null)">
+                <td>
+                  <div class="lead-name">Martin Bernard</div>
+                  <div class="lead-info">06 12 34 56 78 · martin.b@gmail.com</div>
+                </td>
+                <td><span class="status-badge status-rdv">RDV pris</span></td>
+                <td><span class="produit-tag">PAC Air/Eau</span></td>
+                <td>93 — Seine-St-Denis</td>
+                <td>
+                  <div class="score-bar">
+                    <div class="score-track"><div class="score-fill" style="width:85%"></div></div>
+                    <div class="score-num">85</div>
+                  </div>
+                </td>
+                <td style="color:var(--texte2); font-size:12px">Aujourd'hui</td>
+              </tr>
+              <tr onclick="showPage('fiche', null)">
+                <td>
+                  <div class="lead-name">Sophie Lefebvre</div>
+                  <div class="lead-info">06 98 76 54 32 · s.lefebvre@orange.fr</div>
+                </td>
+                <td><span class="status-badge status-contact">Contacté</span></td>
+                <td><span class="produit-tag">Isolation combles</span></td>
+                <td>77 — Seine-et-Marne</td>
+                <td>
+                  <div class="score-bar">
+                    <div class="score-track"><div class="score-fill orange" style="width:60%"></div></div>
+                    <div class="score-num">60</div>
+                  </div>
+                </td>
+                <td style="color:var(--texte2); font-size:12px">Hier</td>
+              </tr>
+              <tr onclick="showPage('fiche', null)">
+                <td>
+                  <div class="lead-name">Jean-Pierre Moreau</div>
+                  <div class="lead-info">06 55 44 33 22 · jp.moreau@free.fr</div>
+                </td>
+                <td><span class="status-badge status-nouveau">Nouveau</span></td>
+                <td><span class="produit-tag">Rénov. ampleur</span></td>
+                <td>95 — Val-d'Oise</td>
+                <td>
+                  <div class="score-bar">
+                    <div class="score-track"><div class="score-fill" style="width:72%"></div></div>
+                    <div class="score-num">72</div>
+                  </div>
+                </td>
+                <td style="color:var(--texte2); font-size:12px">18 juin</td>
+              </tr>
+              <tr onclick="showPage('fiche', null)">
+                <td>
+                  <div class="lead-name">Fatima Benali</div>
+                  <div class="lead-info">06 11 22 33 44 · f.benali@sfr.fr</div>
+                </td>
+                <td><span class="status-badge status-nrp">NRP</span></td>
+                <td><span class="produit-tag">VMC Double flux</span></td>
+                <td>91 — Essonne</td>
+                <td>
+                  <div class="score-bar">
+                    <div class="score-track"><div class="score-fill rouge" style="width:30%"></div></div>
+                    <div class="score-num">30</div>
+                  </div>
+                </td>
+                <td style="color:var(--texte2); font-size:12px">17 juin</td>
+              </tr>
+              <tr onclick="showPage('fiche', null)">
+                <td>
+                  <div class="lead-name">André Dupont</div>
+                  <div class="lead-info">06 77 88 99 00 · a.dupont@gmail.com</div>
+                </td>
+                <td><span class="status-badge status-signe">✓ Signé</span></td>
+                <td><span class="produit-tag">PAC Air/Eau</span></td>
+                <td>75 — Paris</td>
+                <td>
+                  <div class="score-bar">
+                    <div class="score-track"><div class="score-fill" style="width:95%"></div></div>
+                    <div class="score-num">95</div>
+                  </div>
+                </td>
+                <td style="color:var(--texte2); font-size:12px">15 juin</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- LEADS -->
+      <div class="page-section" id="sec-leads">
+        <div class="section-header">
+          <div class="section-title">Tous les leads (24)</div>
+          <button class="btn-primary">+ Ajouter un lead</button>
+        </div>
+        <div class="table-container">
+          <div class="table-search">
+            <input class="search-input" type="text" placeholder="🔍 Rechercher...">
+            <select class="filter-select">
+              <option>Tous les statuts</option>
+              <option>Nouveau</option>
+              <option>Contacté</option>
+              <option>RDV pris</option>
+              <option>NRP</option>
+              <option>Signé</option>
+            </select>
+            <select class="filter-select">
+              <option>Tous les produits</option>
+              <option>PAC Air/Eau</option>
+              <option>Isolation</option>
+              <option>Rénovation ampleur</option>
+            </select>
+            <select class="filter-select">
+              <option>Tous les depts</option>
+              <option>75 - Paris</option>
+              <option>77 - Seine-et-Marne</option>
+              <option>91 - Essonne</option>
+              <option>93 - Seine-St-Denis</option>
+              <option>95 - Val-d'Oise</option>
+            </select>
+          </div>
+          <table>
+            <thead>
+              <tr>
+                <th>Prospect</th>
+                <th>Statut</th>
+                <th>Produit</th>
+                <th>Département</th>
+                <th>Score</th>
+                <th>Créé le</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr onclick="showPage('fiche', null)">
+                <td><div class="lead-name">Martin Bernard</div><div class="lead-info">06 12 34 56 78</div></td>
+                <td><span class="status-badge status-rdv">RDV pris</span></td>
+                <td><span class="produit-tag">PAC Air/Eau</span></td>
+                <td>93</td>
+                <td><div class="score-bar"><div class="score-track"><div class="score-fill" style="width:85%"></div></div><div class="score-num">85</div></div></td>
+                <td style="color:var(--texte2);font-size:12px">Auj.</td>
+              </tr>
+              <tr onclick="showPage('fiche', null)">
+                <td><div class="lead-name">Sophie Lefebvre</div><div class="lead-info">06 98 76 54 32</div></td>
+                <td><span class="status-badge status-contact">Contacté</span></td>
+                <td><span class="produit-tag">Isolation</span></td>
+                <td>77</td>
+                <td><div class="score-bar"><div class="score-track"><div class="score-fill orange" style="width:60%"></div></div><div class="score-num">60</div></div></td>
+                <td style="color:var(--texte2);font-size:12px">Hier</td>
+              </tr>
+              <tr onclick="showPage('fiche', null)">
+                <td><div class="lead-name">Jean-Pierre Moreau</div><div class="lead-info">06 55 44 33 22</div></td>
+                <td><span class="status-badge status-nouveau">Nouveau</span></td>
+                <td><span class="produit-tag">Rénov. ampleur</span></td>
+                <td>95</td>
+                <td><div class="score-bar"><div class="score-track"><div class="score-fill" style="width:72%"></div></div><div class="score-num">72</div></div></td>
+                <td style="color:var(--texte2);font-size:12px">18 juin</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- PIPELINE -->
+      <div class="page-section" id="sec-pipeline">
+        <div class="section-header">
+          <div class="section-title">Pipeline commercial</div>
+        </div>
+        <div class="kanban-board">
+          <div class="kanban-col">
+            <div class="kanban-header bleu">
+              <span class="kanban-col-title">Nouveau</span>
+              <span class="kanban-count">3</span>
+            </div>
+            <div class="kanban-body">
+              <div class="kanban-card" onclick="showPage('fiche', null)">
+                <div class="kanban-card-name">Jean-Pierre Moreau</div>
+                <div class="kanban-card-info">95 · Rénov. ampleur</div>
+                <div class="kanban-card-footer">
+                  <span class="kanban-card-tag">Score 72</span>
+                  <span class="kanban-card-date">18 juin</span>
+                </div>
+              </div>
+              <div class="kanban-card" onclick="showPage('fiche', null)">
+                <div class="kanban-card-name">Claire Rousseau</div>
+                <div class="kanban-card-info">75 · PAC Air/Eau</div>
+                <div class="kanban-card-footer">
+                  <span class="kanban-card-tag">Score 65</span>
+                  <span class="kanban-card-date">17 juin</span>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="kanban-col">
+            <div class="kanban-header orange">
+              <span class="kanban-col-title">Contacté</span>
+              <span class="kanban-count">4</span>
+            </div>
+            <div class="kanban-body">
+              <div class="kanban-card" onclick="showPage('fiche', null)">
+                <div class="kanban-card-name">Sophie Lefebvre</div>
+                <div class="kanban-card-info">77 · Isolation combles</div>
+                <div class="kanban-card-footer">
+                  <span class="kanban-card-tag">Score 60</span>
+                  <span class="kanban-card-date">Hier</span>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="kanban-col">
+            <div class="kanban-header">
+              <span class="kanban-col-title">RDV planifié</span>
+              <span class="kanban-count">2</span>
+            </div>
+            <div class="kanban-body">
+              <div class="kanban-card" onclick="showPage('fiche', null)">
+                <div class="kanban-card-name">Martin Bernard</div>
+                <div class="kanban-card-info">93 · PAC Air/Eau</div>
+                <div class="kanban-card-footer">
+                  <span class="kanban-card-tag">Score 85</span>
+                  <span class="kanban-card-date">Auj.</span>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="kanban-col">
+            <div class="kanban-header violet">
+              <span class="kanban-col-title">Devis envoyé</span>
+              <span class="kanban-count">1</span>
+            </div>
+            <div class="kanban-body">
+              <div class="empty-state" style="padding:30px 10px">
+                <div style="font-size:24px;margin-bottom:8px">📄</div>
+                <div style="font-size:12px;color:var(--texte2)">Aucun devis en cours</div>
+              </div>
+            </div>
+          </div>
+          <div class="kanban-col">
+            <div class="kanban-header vert">
+              <span class="kanban-col-title">Signé</span>
+              <span class="kanban-count">3</span>
+            </div>
+            <div class="kanban-body">
+              <div class="kanban-card" onclick="showPage('fiche', null)">
+                <div class="kanban-card-name">André Dupont</div>
+                <div class="kanban-card-info">75 · PAC Air/Eau</div>
+                <div class="kanban-card-footer">
+                  <span class="kanban-card-tag">Score 95</span>
+                  <span class="kanban-card-date">15 juin</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- FICHE LEAD -->
+      <div class="page-section" id="sec-fiche">
+        <div class="section-header">
+          <div>
+            <button class="btn-secondary" style="margin-bottom:12px" onclick="showPage('leads', null)">← Retour</button>
+            <div class="section-title">Martin Bernard</div>
+          </div>
+          <div style="display:flex;gap:10px">
+            <button class="btn-secondary">📞 Appeler</button>
+            <button class="btn-secondary">📅 Planifier RDV</button>
+            <button class="btn-primary">✓ Marquer comme signé</button>
+          </div>
+        </div>
+
+        <div class="fiche-grid">
+          <div>
+            <div class="card">
+              <div class="card-title">Informations prospect</div>
+              <div class="field-row">
+                <div class="field-group"><label>Nom</label><div class="field-value">Martin Bernard</div></div>
+                <div class="field-group"><label>Téléphone</label><div class="field-value" style="color:var(--vert)">06 12 34 56 78</div></div>
+              </div>
+              <div class="field-row">
+                <div class="field-group"><label>Email</label><div class="field-value">martin.b@gmail.com</div></div>
+                <div class="field-group"><label>Département</label><div class="field-value">93 — Seine-Saint-Denis</div></div>
+              </div>
+              <div class="field-row">
+                <div class="field-group"><label>Statut logement</label><div class="field-value">Propriétaire · Maison individuelle</div></div>
+                <div class="field-group"><label>Zone climatique</label><div class="field-value">H1</div></div>
+              </div>
+              <div class="field-row">
+                <div class="field-group"><label>Chauffage actuel</label><div class="field-value">Gaz — chaudière ancienne</div></div>
+                <div class="field-group"><label>Facture EDF/mois</label><div class="field-value">~280 €</div></div>
+              </div>
+            </div>
+
+            <div class="card">
+              <div class="card-title">Produit & statut</div>
+              <div class="field-row">
+                <div class="field-group"><label>Produit ciblé</label><div class="field-value" style="color:var(--vert)">PAC Air/Eau (BAR-TH-171)</div></div>
+                <div class="field-group"><label>Statut pipeline</label><div><span class="status-badge status-rdv">RDV pris</span></div></div>
+              </div>
+              <div class="field-row">
+                <div class="field-group"><label>Prime CEE estimée</label><div class="field-value" style="color:var(--vert)">4 200 €</div></div>
+                <div class="field-group"><label>Score qualification</label><div class="field-value">85 / 100</div></div>
+              </div>
+              <div style="margin-top:8px">
+                <label style="font-size:11px;font-weight:600;color:var(--texte2);letter-spacing:0.5px;text-transform:uppercase;display:block;margin-bottom:8px">Statut du dossier</label>
+                <select class="filter-select" style="width:100%;padding:11px 14px">
+                  <option>🔵 Nouveau lead</option>
+                  <option>🟠 Contacté</option>
+                  <option selected>🟢 RDV planifié</option>
+                  <option>📄 Devis envoyé</option>
+                  <option>✅ Signé</option>
+                  <option>❌ NRP</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="card">
+              <div class="card-title">Notes & suivi</div>
+              <textarea class="note-input" placeholder="Ajouter une note sur cet appel, ce rendez-vous..."></textarea>
+              <button class="btn-primary" style="font-size:12px;padding:8px 16px">Enregistrer la note</button>
+
+              <div style="margin-top:20px">
+                <div class="timeline">
+                  <div class="timeline-item">
+                    <div class="timeline-dot">📞</div>
+                    <div class="timeline-content">
+                      <div class="timeline-text">Appel entrant — très intéressé par la PAC, facture de gaz très élevée. RDV planifié.</div>
+                      <div class="timeline-date">Aujourd'hui à 10h34</div>
+                    </div>
+                  </div>
+                  <div class="timeline-item">
+                    <div class="timeline-dot">📊</div>
+                    <div class="timeline-content">
+                      <div class="timeline-text">Lead créé depuis le simulateur web LEDAS PV</div>
+                      <div class="timeline-date">18 juin 2026 à 09h12</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div>
+            <div class="card">
+              <div class="card-title">RDV technicien</div>
+              <div style="margin-bottom:12px">
+                <label style="font-size:11px;font-weight:600;color:var(--texte2);letter-spacing:0.5px;text-transform:uppercase;display:block;margin-bottom:6px">Date & heure</label>
+                <input type="datetime-local" class="search-input" style="width:100%">
+              </div>
+              <div style="margin-bottom:16px">
+                <label style="font-size:11px;font-weight:600;color:var(--texte2);letter-spacing:0.5px;text-transform:uppercase;display:block;margin-bottom:6px">Adresse</label>
+                <input type="text" class="search-input" style="width:100%" placeholder="12 rue des Lilas, 93000 Bobigny">
+              </div>
+              <button class="btn-primary" style="width:100%">📅 Confirmer le RDV</button>
+            </div>
+
+            <div class="card">
+              <div class="card-title">Rappels</div>
+              <div style="display:flex;flex-direction:column;gap:8px">
+                <div style="display:flex;align-items:center;justify-content:space-between;background:rgba(255,140,66,0.1);border:1px solid rgba(255,140,66,0.2);border-radius:8px;padding:10px 14px">
+                  <div>
+                    <div style="font-size:12px;font-weight:600;color:var(--orange)">Rappel dans 15 min</div>
+                    <div style="font-size:11px;color:var(--texte2)">Confirmer le RDV</div>
+                  </div>
+                  <span style="font-size:18px">⏰</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="card">
+              <div class="card-title">Fiche CEE applicable</div>
+              <div style="background:rgba(0,229,160,0.08);border:1px solid rgba(0,229,160,0.2);border-radius:8px;padding:14px">
+                <div style="font-size:13px;font-weight:600;color:var(--vert);margin-bottom:6px">BAR-TH-171</div>
+                <div style="font-size:12px;color:var(--texte2);margin-bottom:10px">Pompe à chaleur de type air/eau — France métropolitaine</div>
+                <div style="font-size:12px;color:var(--texte);margin-bottom:4px">Zone H1 · Maison individuelle</div>
+                <div style="font-size:13px;font-weight:600;color:var(--vert)">Prime estimée : 4 200 €</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- SCRIPTS + IA -->
+      <div class="page-section" id="sec-scripts">
+        <div class="section-header">
+          <div class="section-title">Scripts de prospection + Assistance IA</div>
+          <div style="display:flex;gap:10px">
+            <select class="filter-select">
+              <option>PAC Air/Eau — BAR-TH-171</option>
+              <option>Isolation combles — BAR-EN-101</option>
+              <option>Rénovation ampleur — BAR-TH-174</option>
+              <option>VMC Double flux — BAR-TH-125</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="script-container">
+          <div class="script-card">
+            <div class="script-tabs">
+              <div class="script-tab active" onclick="switchTab(this, 'tab-script')">📋 Script</div>
+              <div class="script-tab" onclick="switchTab(this, 'tab-objections')">💬 Objections</div>
+              <div class="script-tab" onclick="switchTab(this, 'tab-produit')">⚡ Produit</div>
+            </div>
+
+            <div class="script-body" id="tab-script">
+              <div class="script-step">
+                <div class="script-step-num">Étape 1</div>
+                <div class="script-step-title">Accroche initiale</div>
+                <div class="script-step-text">
+                  "Bonjour, je suis <strong>[votre prénom]</strong> de LEDAS PV. Je vous contacte car vous avez récemment manifesté de l'intérêt pour les aides à la rénovation énergétique. Avez-vous 2 minutes ?"
+                </div>
+              </div>
+              <div class="script-step">
+                <div class="script-step-num">Étape 2</div>
+                <div class="script-step-title">Qualification rapide</div>
+                <div class="script-step-text">
+                  "Parfait. Pour vous orienter vers les meilleures aides disponibles, j'ai besoin de savoir : vous êtes bien propriétaire de votre maison ? Et votre système de chauffage actuel, c'est quoi — du gaz, du fioul, de l'électrique ?"
+                </div>
+              </div>
+              <div class="script-step">
+                <div class="script-step-num">Étape 3</div>
+                <div class="script-step-title">Présenter la solution</div>
+                <div class="script-step-text">
+                  "Avec une PAC air/eau, vous pouvez <strong>diviser votre facture de chauffage par 3</strong>. Et grâce aux Certificats d'Économies d'Énergie, l'État vous rembourse jusqu'à <strong>4 200 €</strong> directement déduits de votre facture. Notre technicien peut venir évaluer votre maison gratuitement."
+                </div>
+              </div>
+              <div class="script-step">
+                <div class="script-step-num">Étape 4</div>
+                <div class="script-step-title">Prise de RDV</div>
+                <div class="script-step-text">
+                  "Vous seriez disponible quand pour qu'on vienne faire l'évaluation ? C'est <strong>gratuit et sans engagement</strong>. Plutôt en semaine ou le week-end ? Matin ou après-midi ?"
+                </div>
+              </div>
+            </div>
+
+            <div class="script-body" id="tab-objections" style="display:none">
+              <div class="objection-list">
+                <div class="objection-item">
+                  <div class="objection-q" onclick="toggleObj(this)">"C'est trop cher pour moi" <span>+</span></div>
+                  <div class="objection-a">La bonne nouvelle c'est que vous n'avancez rien. Les aides CEE sont déduites directement du devis. Selon votre situation, le reste à charge peut être inférieur à 2 000 €, et il existe des solutions de financement à 0% sur 84 mois. On fait le calcul ensemble lors du RDV gratuit.</div>
+                </div>
+                <div class="objection-item">
+                  <div class="objection-q" onclick="toggleObj(this)">"J'ai déjà été démarché" <span>+</span></div>
+                  <div class="objection-a">Je comprends, ce secteur est très actif. Ce qui nous différencie : nous installons nous-mêmes, pas de sous-traitant. Et je peux vous montrer nos certifications RGE et les avis de nos clients sur votre commune. Le diagnostic est gratuit, vous n'avez rien à perdre.</div>
+                </div>
+                <div class="objection-item">
+                  <div class="objection-q" onclick="toggleObj(this)">"Je vais en parler à mon conjoint" <span>+</span></div>
+                  <div class="objection-a">Bien sûr, c'est une décision importante. Je propose qu'on planifie le RDV à un moment où vous êtes tous les deux disponibles — comme ça vous pouvez poser toutes vos questions ensemble à notre technicien. Ça vous convient ?</div>
+                </div>
+                <div class="objection-item">
+                  <div class="objection-q" onclick="toggleObj(this)">"Les travaux vont durer longtemps ?" <span>+</span></div>
+                  <div class="objection-a">Une installation PAC air/eau se fait en 1 à 2 jours selon la configuration de votre maison. Notre équipe fait tout : dépose de l'ancien système, installation, mise en service. Vous avez chaud dès le lendemain.</div>
+                </div>
+                <div class="objection-item">
+                  <div class="objection-q" onclick="toggleObj(this)">"Je veux réfléchir" <span>+</span></div>
+                  <div class="objection-a">Je respecte ça. Sachez juste que les taux de primes CEE évoluent régulièrement — certaines fiches ont déjà été supprimées en 2025. Je peux vous rappeler dans 48h ? Ou si vous préférez, donnez-moi votre email et je vous envoie la simulation chiffrée.</div>
+                </div>
+              </div>
+            </div>
+
+            <div class="script-body" id="tab-produit" style="display:none">
+              <div class="card" style="margin:0;background:var(--noir2)">
+                <div style="display:flex;align-items:center;gap:12px;margin-bottom:16px">
+                  <div style="font-size:32px">🌡️</div>
+                  <div>
+                    <div style="font-size:16px;font-weight:700;color:var(--vert)">Pompe à chaleur air/eau</div>
+                    <div style="font-size:12px;color:var(--texte2)">Fiche CEE : BAR-TH-171 · 78ème arrêté</div>
+                  </div>
+                </div>
+                <div class="field-row" style="margin-bottom:0">
+                  <div class="field-group"><label>Économies</label><div class="field-value" style="color:var(--vert)">Jusqu'à 70%</div></div>
+                  <div class="field-group"><label>Prime max</label><div class="field-value" style="color:var(--vert)">4 200 € (H1)</div></div>
+                  <div class="field-group"><label>Durée travaux</label><div class="field-value">1-2 jours</div></div>
+                  <div class="field-group"><label>Garantie</label><div class="field-value">2 ans main d'œuvre</div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="ia-assist">
+            <div class="ia-header">
+              <div class="ia-dot"></div>
+              <div class="ia-title">Assistant IA GM</div>
+            </div>
+            <div class="ia-messages" id="ia-messages">
+              <div class="ia-msg">Bonjour ! Je suis là pour vous aider pendant vos appels. Posez-moi n'importe quelle question sur les produits CEE, les objections clients, ou les arguments à utiliser.</div>
+            </div>
+            <div class="ia-input-row">
+              <input class="ia-input" id="ia-input" type="text" placeholder="Ex: Comment répondre si le client dit que..." onkeydown="if(event.key==='Enter') sendIA()">
+              <button class="ia-send" onclick="sendIA()">→</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- PAGES VIDES (à développer) -->
+      <div class="page-section" id="sec-rdvs">
+        <div class="section-header"><div class="section-title">Rendez-vous</div><button class="btn-primary">+ Nouveau RDV</button></div>
+        <div class="table-container"><div class="empty-state"><div class="icon">📅</div><h3>Planning des RDV</h3><p>Le calendrier avec calcul de distances arrive bientôt</p></div></div>
+      </div>
+
+      <div class="page-section" id="sec-dossiers">
+        <div class="section-header"><div class="section-title">Dossiers CEE</div></div>
+        <div class="table-container"><div class="empty-state"><div class="icon">📁</div><h3>Suivi des dossiers</h3><p>Gestion complète des dossiers administratifs CEE</p></div></div>
+      </div>
+
+      <div class="page-section" id="sec-clients">
+        <div class="section-header"><div class="section-title">Clients</div></div>
+        <div class="table-container"><div class="empty-state"><div class="icon">🏠</div><h3>Base clients</h3><p>Tous vos clients installés</p></div></div>
+      </div>
+
+      <div class="page-section" id="sec-stats">
+        <div class="section-header"><div class="section-title">Statistiques</div></div>
+        <div class="table-container"><div class="empty-state"><div class="icon">📈</div><h3>Statistiques & KPIs</h3><p>Taux de conversion, CA, coût par lead...</p></div></div>
+      </div>
+
+      <div class="page-section" id="sec-produits">
+        <div class="section-header"><div class="section-title">Catalogue produits CEE</div><button class="btn-primary">+ Ajouter un produit</button></div>
+        <div class="table-container"><div class="empty-state"><div class="icon">⚡</div><h3>Produits CEE</h3><p>Gérez vos fiches CEE actives et leurs critères d'éligibilité</p></div></div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<script>
+  // ===== AUTH =====
+  const USERS = {
+    'admin@gmcrm.fr': { pwd: 'gm2026', name: 'Admin GM', role: 'Administrateur' },
+    'prospecteur@gmcrm.fr': { pwd: 'gm2026', name: 'Télépro 1', role: 'Téléprospecteur' }
+  };
+
+  function login() {
+    const email = document.getElementById('login-email').value.trim();
+    const pwd = document.getElementById('login-pwd').value;
+    const err = document.getElementById('login-error');
+
+    if (USERS[email] && USERS[email].pwd === pwd) {
+      const user = USERS[email];
+      document.getElementById('user-name').textContent = user.name;
+      document.getElementById('user-avatar').textContent = user.name[0].toUpperCase();
+      document.getElementById('page-login').style.display = 'none';
+      document.getElementById('page-app').style.display = 'block';
+      err.style.display = 'none';
+    } else {
+      err.style.display = 'block';
+    }
+  }
+
+  document.getElementById('login-pwd').addEventListener('keydown', e => {
+    if (e.key === 'Enter') login();
+  });
+
+  function logout() {
+    document.getElementById('page-login').style.display = 'flex';
+    document.getElementById('page-app').style.display = 'none';
+  }
+
+  // ===== NAVIGATION =====
+  function showPage(page, navEl) {
+    document.querySelectorAll('.page-section').forEach(s => s.classList.remove('active'));
+    document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+    document.getElementById('sec-' + page).classList.add('active');
+
+    const titles = {
+      dashboard: 'Tableau de bord', leads: 'Leads', pipeline: 'Pipeline',
+      fiche: 'Fiche prospect — Martin Bernard', scripts: 'Scripts + IA',
+      rdvs: 'Rendez-vous', dossiers: 'Dossiers CEE', clients: 'Clients',
+      stats: 'Statistiques', produits: 'Produits CEE'
+    };
+    document.getElementById('topbar-title').textContent = titles[page] || page;
+
+    if (navEl) navEl.classList.add('active');
+  }
+
+  // ===== SCRIPTS TABS =====
+  function switchTab(tabEl, tabId) {
+    document.querySelectorAll('.script-tab').forEach(t => t.classList.remove('active'));
+    document.querySelectorAll('.script-body').forEach(b => b.style.display = 'none');
+    tabEl.classList.add('active');
+    document.getElementById(tabId).style.display = 'block';
+  }
+
+  // ===== OBJECTIONS =====
+  function toggleObj(el) {
+    const ans = el.nextElementSibling;
+    const isOpen = ans.classList.contains('open');
+    document.querySelectorAll('.objection-q').forEach(q => { q.classList.remove('open'); q.querySelector('span').textContent = '+'; });
+    document.querySelectorAll('.objection-a').forEach(a => a.classList.remove('open'));
+    if (!isOpen) {
+      el.classList.add('open');
+      el.querySelector('span').textContent = '−';
+      ans.classList.add('open');
+    }
+  }
+
+  // ===== IA ASSISTANT =====
+  async function sendIA() {
+    const input = document.getElementById('ia-input');
+    const question = input.value.trim();
+    if (!question) return;
+
+    const msgs = document.getElementById('ia-messages');
+
+    // Message utilisateur
+    const qDiv = document.createElement('div');
+    qDiv.className = 'ia-msg question';
+    qDiv.textContent = question;
+    msgs.appendChild(qDiv);
+    input.value = '';
+    msgs.scrollTop = msgs.scrollHeight;
+
+    // Réponse IA
+    const aDiv = document.createElement('div');
+    aDiv.className = 'ia-msg';
+    aDiv.textContent = '...';
+    msgs.appendChild(aDiv);
+    msgs.scrollTop = msgs.scrollHeight;
+
+    try {
+      const resp = await fetch('https://api.anthropic.com/v1/messages', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          model: 'claude-sonnet-4-6',
+          max_tokens: 1000,
+          system: `Tu es l'assistant IA du CRM GM, spécialisé en rénovation énergétique et Certificats d'Économies d'Énergie (CEE). 
+Tu aides les téléprospecteurs en temps réel pendant leurs appels. 
+Réponds en français, de façon concise et pratique (2-4 phrases max). 
+Tu connais parfaitement les fiches CEE (BAR-TH-171 PAC air/eau, BAR-EN-101 isolation combles, BAR-TH-174 rénovation d'ampleur, etc.), 
+les arguments commerciaux, les réponses aux objections, et les critères d'éligibilité.`,
+          messages: [{ role: 'user', content: question }]
+        })
+      });
+      const data = await resp.json();
+      aDiv.textContent = data.content?.[0]?.text || 'Désolé, je n\'ai pas pu répondre.';
+    } catch(e) {
+      aDiv.textContent = 'Connexion IA temporairement indisponible. Consultez l\'onglet Objections pour les réponses types.';
+    }
+    msgs.scrollTop = msgs.scrollHeight;
+  }
+</script>
+
+</body>
+</html>
