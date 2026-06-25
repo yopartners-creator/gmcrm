@@ -20,7 +20,7 @@
     --rouge: #FF4A6E;
     --texte: #E8E8F0;
     --texte2: #8888AA;
-    --texte3: #5555770;
+    --texte3: #555577;
   }
 
   * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -63,10 +63,7 @@
     z-index: 1;
   }
 
-  .login-logo {
-    text-align: center;
-    margin-bottom: 40px;
-  }
+  .login-logo { text-align: center; margin-bottom: 40px; }
 
   .login-logo .gm-mark {
     font-family: 'Space Grotesk', sans-serif;
@@ -85,21 +82,10 @@
     margin-top: 6px;
   }
 
-  .login-title {
-    font-size: 22px;
-    font-weight: 600;
-    margin-bottom: 6px;
-  }
+  .login-title { font-size: 22px; font-weight: 600; margin-bottom: 6px; }
+  .login-desc { font-size: 13px; color: var(--texte2); margin-bottom: 32px; }
 
-  .login-desc {
-    font-size: 13px;
-    color: var(--texte2);
-    margin-bottom: 32px;
-  }
-
-  .form-group {
-    margin-bottom: 16px;
-  }
+  .form-group { margin-bottom: 16px; }
 
   .form-group label {
     display: block;
@@ -111,7 +97,7 @@
     text-transform: uppercase;
   }
 
-  .form-group input {
+  .form-group input, .form-group select {
     width: 100%;
     background: var(--noir2);
     border: 1px solid var(--border);
@@ -124,10 +110,7 @@
     transition: border-color 0.2s;
   }
 
-  .form-group input:focus {
-    border-color: var(--vert);
-  }
-
+  .form-group input:focus, .form-group select:focus { border-color: var(--vert); }
   .form-group input::placeholder { color: var(--texte2); }
 
   .btn-login {
@@ -161,10 +144,7 @@
   }
 
   /* ===== LAYOUT PRINCIPAL ===== */
-  #page-app {
-    display: none;
-    min-height: 100vh;
-  }
+  #page-app { display: none; min-height: 100vh; }
 
   .sidebar {
     position: fixed;
@@ -178,10 +158,7 @@
     z-index: 100;
   }
 
-  .sidebar-logo {
-    padding: 28px 24px 24px;
-    border-bottom: 1px solid var(--border);
-  }
+  .sidebar-logo { padding: 28px 24px 24px; border-bottom: 1px solid var(--border); }
 
   .sidebar-logo .gm-mark {
     font-family: 'Space Grotesk', sans-serif;
@@ -198,15 +175,8 @@
     text-transform: uppercase;
   }
 
-  .sidebar-nav {
-    flex: 1;
-    padding: 16px 12px;
-    overflow-y: auto;
-  }
-
-  .nav-section {
-    margin-bottom: 24px;
-  }
+  .sidebar-nav { flex: 1; padding: 16px 12px; overflow-y: auto; }
+  .nav-section { margin-bottom: 24px; }
 
   .nav-section-title {
     font-size: 10px;
@@ -234,12 +204,7 @@
   }
 
   .nav-item:hover { background: var(--card2); color: var(--texte); }
-
-  .nav-item.active {
-    background: rgba(0,229,160,0.1);
-    color: var(--vert);
-  }
-
+  .nav-item.active { background: rgba(0,229,160,0.1); color: var(--vert); }
   .nav-item .icon { font-size: 16px; width: 20px; text-align: center; }
 
   .nav-badge {
@@ -257,10 +222,7 @@
   .nav-badge.orange { background: var(--orange); }
   .nav-badge.rouge { background: var(--rouge); }
 
-  .sidebar-footer {
-    padding: 16px 12px;
-    border-top: 1px solid var(--border);
-  }
+  .sidebar-footer { padding: 16px 12px; border-top: 1px solid var(--border); }
 
   .user-block {
     display: flex;
@@ -291,11 +253,7 @@
   .user-role { font-size: 11px; color: var(--texte2); }
 
   /* ===== CONTENU PRINCIPAL ===== */
-  .main-content {
-    margin-left: 240px;
-    min-height: 100vh;
-    background: var(--noir);
-  }
+  .main-content { margin-left: 240px; min-height: 100vh; background: var(--noir); }
 
   .topbar {
     height: 64px;
@@ -310,17 +268,8 @@
     z-index: 50;
   }
 
-  .topbar-title {
-    font-family: 'Space Grotesk', sans-serif;
-    font-size: 18px;
-    font-weight: 600;
-  }
-
-  .topbar-actions {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-  }
+  .topbar-title { font-family: 'Space Grotesk', sans-serif; font-size: 18px; font-weight: 600; }
+  .topbar-actions { display: flex; align-items: center; gap: 12px; }
 
   .btn-primary {
     background: var(--vert);
@@ -352,17 +301,10 @@
 
   .btn-secondary:hover { background: var(--border); }
 
-  .page-body {
-    padding: 32px;
-  }
+  .page-body { padding: 32px; }
 
   /* ===== DASHBOARD ===== */
-  .kpi-grid {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 16px;
-    margin-bottom: 32px;
-  }
+  .kpi-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin-bottom: 32px; }
 
   .kpi-card {
     background: var(--card);
@@ -409,24 +351,11 @@
   .kpi-card.orange .kpi-value { color: var(--orange); }
   .kpi-card.rouge .kpi-value { color: var(--rouge); }
 
-  .kpi-sub {
-    font-size: 12px;
-    color: var(--texte2);
-  }
+  .kpi-sub { font-size: 12px; color: var(--texte2); }
 
   /* ===== TABLEAU LEADS ===== */
-  .section-header {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    margin-bottom: 16px;
-  }
-
-  .section-title {
-    font-family: 'Space Grotesk', sans-serif;
-    font-size: 16px;
-    font-weight: 600;
-  }
+  .section-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 16px; }
+  .section-title { font-family: 'Space Grotesk', sans-serif; font-size: 16px; font-weight: 600; }
 
   .table-container {
     background: var(--card);
@@ -442,6 +371,7 @@
     display: flex;
     gap: 12px;
     align-items: center;
+    flex-wrap: wrap;
   }
 
   .search-input {
@@ -472,10 +402,7 @@
     cursor: pointer;
   }
 
-  table {
-    width: 100%;
-    border-collapse: collapse;
-  }
+  table { width: 100%; border-collapse: collapse; }
 
   thead th {
     padding: 12px 20px;
@@ -489,19 +416,10 @@
     background: var(--card);
   }
 
-  tbody tr {
-    border-bottom: 1px solid var(--border);
-    transition: background 0.15s;
-    cursor: pointer;
-  }
-
+  tbody tr { border-bottom: 1px solid var(--border); transition: background 0.15s; cursor: pointer; }
   tbody tr:last-child { border-bottom: none; }
   tbody tr:hover { background: var(--card2); }
-
-  tbody td {
-    padding: 14px 20px;
-    font-size: 13px;
-  }
+  tbody td { padding: 14px 20px; font-size: 13px; }
 
   .lead-name { font-weight: 600; color: var(--texte); }
   .lead-info { font-size: 12px; color: var(--texte2); margin-top: 2px; }
@@ -516,11 +434,7 @@
     font-weight: 600;
   }
 
-  .status-badge::before {
-    content: '';
-    width: 6px; height: 6px;
-    border-radius: 50%;
-  }
+  .status-badge::before { content: ''; width: 6px; height: 6px; border-radius: 50%; }
 
   .status-nouveau { background: rgba(74,144,255,0.15); color: var(--bleu); }
   .status-nouveau::before { background: var(--bleu); }
@@ -528,6 +442,8 @@
   .status-contact::before { background: var(--orange); }
   .status-rdv { background: rgba(0,229,160,0.15); color: var(--vert); }
   .status-rdv::before { background: var(--vert); }
+  .status-devis { background: rgba(168,85,247,0.15); color: #A855F7; }
+  .status-devis::before { background: #A855F7; }
   .status-nrp { background: rgba(255,74,110,0.15); color: var(--rouge); }
   .status-nrp::before { background: var(--rouge); }
   .status-signe { background: rgba(0,229,160,0.2); color: var(--vert); border: 1px solid rgba(0,229,160,0.3); }
@@ -543,11 +459,7 @@
     color: var(--texte2);
   }
 
-  .score-bar {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-  }
+  .score-bar { display: flex; align-items: center; gap: 8px; }
 
   .score-track {
     flex: 1;
@@ -558,32 +470,18 @@
     max-width: 60px;
   }
 
-  .score-fill {
-    height: 100%;
-    border-radius: 2px;
-    background: var(--vert);
-  }
-
+  .score-fill { height: 100%; border-radius: 2px; background: var(--vert); }
   .score-fill.orange { background: var(--orange); }
   .score-fill.rouge { background: var(--rouge); }
 
-  .score-num {
-    font-size: 12px;
-    font-weight: 600;
-    color: var(--texte2);
-    min-width: 20px;
-  }
+  .score-num { font-size: 12px; font-weight: 600; color: var(--texte2); min-width: 20px; }
 
   /* ===== PAGES CACHÉES ===== */
   .page-section { display: none; }
   .page-section.active { display: block; }
 
   /* ===== FICHE LEAD ===== */
-  .fiche-grid {
-    display: grid;
-    grid-template-columns: 1fr 340px;
-    gap: 20px;
-  }
+  .fiche-grid { display: grid; grid-template-columns: 1fr 340px; gap: 20px; }
 
   .card {
     background: var(--card);
@@ -604,12 +502,7 @@
     border-bottom: 1px solid var(--border);
   }
 
-  .field-row {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 16px;
-    margin-bottom: 16px;
-  }
+  .field-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 16px; }
 
   .field-group label {
     display: block;
@@ -621,24 +514,10 @@
     margin-bottom: 6px;
   }
 
-  .field-value {
-    font-size: 14px;
-    color: var(--texte);
-    font-weight: 500;
-  }
+  .field-value { font-size: 14px; color: var(--texte); font-weight: 500; }
 
-  .timeline {
-    display: flex;
-    flex-direction: column;
-    gap: 0;
-  }
-
-  .timeline-item {
-    display: flex;
-    gap: 14px;
-    padding-bottom: 20px;
-    position: relative;
-  }
+  .timeline { display: flex; flex-direction: column; gap: 0; }
+  .timeline-item { display: flex; gap: 14px; padding-bottom: 20px; position: relative; }
 
   .timeline-item:not(:last-child)::after {
     content: '';
@@ -666,17 +545,8 @@
   }
 
   .timeline-content { flex: 1; }
-
-  .timeline-text {
-    font-size: 13px;
-    color: var(--texte);
-    margin-bottom: 3px;
-  }
-
-  .timeline-date {
-    font-size: 11px;
-    color: var(--texte2);
-  }
+  .timeline-text { font-size: 13px; color: var(--texte); margin-bottom: 3px; }
+  .timeline-date { font-size: 11px; color: var(--texte2); }
 
   .note-input {
     width: 100%;
@@ -698,17 +568,8 @@
   .note-input::placeholder { color: var(--texte2); }
 
   /* ===== PIPELINE KANBAN ===== */
-  .kanban-board {
-    display: flex;
-    gap: 16px;
-    overflow-x: auto;
-    padding-bottom: 16px;
-  }
-
-  .kanban-col {
-    min-width: 240px;
-    flex-shrink: 0;
-  }
+  .kanban-board { display: flex; gap: 16px; overflow-x: auto; padding-bottom: 16px; }
+  .kanban-col { min-width: 240px; flex-shrink: 0; }
 
   .kanban-header {
     display: flex;
@@ -727,12 +588,7 @@
   .kanban-header.rouge { border-bottom-color: var(--rouge); }
   .kanban-header.violet { border-bottom-color: #A855F7; }
 
-  .kanban-col-title {
-    font-size: 12px;
-    font-weight: 600;
-    text-transform: uppercase;
-    letter-spacing: 1px;
-  }
+  .kanban-col-title { font-size: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: 1px; }
 
   .kanban-count {
     font-size: 11px;
@@ -764,28 +620,10 @@
     transition: border-color 0.15s, transform 0.15s;
   }
 
-  .kanban-card:hover {
-    border-color: var(--vert);
-    transform: translateY(-1px);
-  }
-
-  .kanban-card-name {
-    font-size: 13px;
-    font-weight: 600;
-    margin-bottom: 5px;
-  }
-
-  .kanban-card-info {
-    font-size: 11px;
-    color: var(--texte2);
-    margin-bottom: 8px;
-  }
-
-  .kanban-card-footer {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-  }
+  .kanban-card:hover { border-color: var(--vert); transform: translateY(-1px); }
+  .kanban-card-name { font-size: 13px; font-weight: 600; margin-bottom: 5px; }
+  .kanban-card-info { font-size: 11px; color: var(--texte2); margin-bottom: 8px; }
+  .kanban-card-footer { display: flex; align-items: center; justify-content: space-between; }
 
   .kanban-card-tag {
     font-size: 10px;
@@ -796,29 +634,12 @@
     color: var(--texte2);
   }
 
-  .kanban-card-date {
-    font-size: 10px;
-    color: var(--texte2);
-  }
+  .kanban-card-date { font-size: 10px; color: var(--texte2); }
 
   /* ===== SCRIPT IA ===== */
-  .script-container {
-    display: grid;
-    grid-template-columns: 1fr 380px;
-    gap: 20px;
-  }
-
-  .script-card {
-    background: var(--card);
-    border: 1px solid var(--border);
-    border-radius: 14px;
-    overflow: hidden;
-  }
-
-  .script-tabs {
-    display: flex;
-    border-bottom: 1px solid var(--border);
-  }
+  .script-container { display: grid; grid-template-columns: 1fr 380px; gap: 20px; }
+  .script-card { background: var(--card); border: 1px solid var(--border); border-radius: 14px; overflow: hidden; }
+  .script-tabs { display: flex; border-bottom: 1px solid var(--border); }
 
   .script-tab {
     padding: 14px 20px;
@@ -831,18 +652,9 @@
     margin-bottom: -1px;
   }
 
-  .script-tab.active {
-    color: var(--vert);
-    border-bottom-color: var(--vert);
-  }
-
-  .script-body {
-    padding: 24px;
-  }
-
-  .script-step {
-    margin-bottom: 24px;
-  }
+  .script-tab.active { color: var(--vert); border-bottom-color: var(--vert); }
+  .script-body { padding: 24px; }
+  .script-step { margin-bottom: 24px; }
 
   .script-step-num {
     font-size: 10px;
@@ -853,11 +665,7 @@
     margin-bottom: 6px;
   }
 
-  .script-step-title {
-    font-size: 14px;
-    font-weight: 600;
-    margin-bottom: 10px;
-  }
+  .script-step-title { font-size: 14px; font-weight: 600; margin-bottom: 10px; }
 
   .script-step-text {
     font-size: 13px;
@@ -872,18 +680,8 @@
 
   .script-step-text strong { color: var(--texte); }
 
-  .objection-list {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-  }
-
-  .objection-item {
-    background: var(--noir2);
-    border: 1px solid var(--border);
-    border-radius: 8px;
-    overflow: hidden;
-  }
+  .objection-list { display: flex; flex-direction: column; gap: 10px; }
+  .objection-item { background: var(--noir2); border: 1px solid var(--border); border-radius: 8px; overflow: hidden; }
 
   .objection-q {
     padding: 12px 16px;
@@ -899,15 +697,7 @@
 
   .objection-q:hover { background: var(--card2); }
   .objection-q.open { border-bottom-color: var(--border); color: var(--vert); }
-
-  .objection-a {
-    padding: 12px 16px;
-    font-size: 13px;
-    color: var(--texte2);
-    line-height: 1.6;
-    display: none;
-  }
-
+  .objection-a { padding: 12px 16px; font-size: 13px; color: var(--texte2); line-height: 1.6; display: none; }
   .objection-a.open { display: block; }
 
   .ia-assist {
@@ -931,32 +721,10 @@
     border-bottom: 1px solid var(--border);
   }
 
-  .ia-dot {
-    width: 8px; height: 8px;
-    background: var(--vert);
-    border-radius: 50%;
-    animation: pulse 2s infinite;
-  }
-
-  @keyframes pulse {
-    0%, 100% { opacity: 1; }
-    50% { opacity: 0.3; }
-  }
-
-  .ia-title {
-    font-size: 13px;
-    font-weight: 600;
-    color: var(--vert);
-  }
-
-  .ia-messages {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-    margin-bottom: 16px;
-    max-height: 300px;
-    overflow-y: auto;
-  }
+  .ia-dot { width: 8px; height: 8px; background: var(--vert); border-radius: 50%; animation: pulse 2s infinite; }
+  @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.3; } }
+  .ia-title { font-size: 13px; font-weight: 600; color: var(--vert); }
+  .ia-messages { display: flex; flex-direction: column; gap: 10px; margin-bottom: 16px; max-height: 300px; overflow-y: auto; }
 
   .ia-msg {
     background: var(--card2);
@@ -968,16 +736,8 @@
     line-height: 1.6;
   }
 
-  .ia-msg.question {
-    background: rgba(74,144,255,0.1);
-    border-color: rgba(74,144,255,0.3);
-    color: var(--bleu);
-  }
-
-  .ia-input-row {
-    display: flex;
-    gap: 8px;
-  }
+  .ia-msg.question { background: rgba(74,144,255,0.1); border-color: rgba(74,144,255,0.3); color: var(--bleu); }
+  .ia-input-row { display: flex; gap: 8px; }
 
   .ia-input {
     flex: 1;
@@ -1011,15 +771,111 @@
   .ia-send:hover { background: var(--vert2); }
 
   /* ===== EMPTY STATE ===== */
-  .empty-state {
-    text-align: center;
-    padding: 60px 20px;
-    color: var(--texte2);
-  }
-
+  .empty-state { text-align: center; padding: 60px 20px; color: var(--texte2); }
   .empty-state .icon { font-size: 40px; margin-bottom: 16px; }
   .empty-state h3 { font-size: 16px; font-weight: 600; color: var(--texte); margin-bottom: 8px; }
   .empty-state p { font-size: 13px; }
+
+  /* ===== MODALE AJOUT LEAD ===== */
+  .modal-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.6);
+    z-index: 200;
+    align-items: flex-start;
+    justify-content: center;
+    padding: 40px 20px;
+    overflow-y: auto;
+  }
+  .modal-overlay.open { display: flex; }
+
+  .modal {
+    width: 560px;
+    max-width: 100%;
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 28px;
+    position: relative;
+  }
+
+  .modal-title {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 18px;
+    font-weight: 600;
+    margin-bottom: 22px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .modal-close { cursor: pointer; color: var(--texte2); font-size: 22px; line-height: 1; background: none; border: none; }
+  .modal-close:hover { color: var(--texte); }
+
+  .modal-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+  .modal-grid .full { grid-column: 1 / -1; }
+
+  .modal label {
+    display: block;
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--texte2);
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+    margin-bottom: 6px;
+  }
+
+  .modal input, .modal select, .modal textarea {
+    width: 100%;
+    background: var(--noir2);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 11px 14px;
+    font-size: 13px;
+    color: var(--texte);
+    font-family: 'Inter', sans-serif;
+    outline: none;
+    transition: border-color 0.2s;
+  }
+
+  .modal input:focus, .modal select:focus, .modal textarea:focus { border-color: var(--vert); }
+  .modal-actions { display: flex; justify-content: flex-end; gap: 10px; margin-top: 22px; }
+
+  /* ===== BANDEAU CONFIG ===== */
+  .config-banner {
+    display: none;
+    background: rgba(255,140,66,0.12);
+    border: 1px solid rgba(255,140,66,0.3);
+    color: var(--orange);
+    border-radius: 10px;
+    padding: 12px 16px;
+    font-size: 13px;
+    margin-bottom: 20px;
+    line-height: 1.5;
+  }
+
+  .toast {
+    position: fixed;
+    bottom: 24px;
+    left: 50%;
+    transform: translateX(-50%) translateY(20px);
+    background: var(--card2);
+    border: 1px solid var(--border);
+    color: var(--texte);
+    padding: 12px 20px;
+    border-radius: 10px;
+    font-size: 13px;
+    font-weight: 500;
+    opacity: 0;
+    pointer-events: none;
+    transition: all 0.25s;
+    z-index: 300;
+  }
+
+  .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+  .toast.ok { border-color: rgba(0,229,160,0.4); }
+  .toast.err { border-color: rgba(255,74,110,0.4); color: var(--rouge); }
 
   /* SCROLLBAR */
   ::-webkit-scrollbar { width: 6px; height: 6px; }
@@ -1071,7 +927,7 @@
         </div>
         <div class="nav-item" onclick="showPage('pipeline', this)">
           <span class="icon">🔄</span> Pipeline
-          <span class="nav-badge">7</span>
+          <span class="nav-badge" id="badge-pipeline">0</span>
         </div>
       </div>
 
@@ -1079,14 +935,14 @@
         <div class="nav-section-title">Prospection</div>
         <div class="nav-item" onclick="showPage('leads', this)">
           <span class="icon">👥</span> Leads
-          <span class="nav-badge orange">3</span>
+          <span class="nav-badge orange" id="badge-leads">0</span>
         </div>
         <div class="nav-item" onclick="showPage('scripts', this)">
           <span class="icon">🎯</span> Scripts + IA
         </div>
         <div class="nav-item" onclick="showPage('rdvs', this)">
           <span class="icon">📅</span> RDV
-          <span class="nav-badge">2</span>
+          <span class="nav-badge" id="badge-rdv">0</span>
         </div>
       </div>
 
@@ -1116,7 +972,7 @@
         <div class="user-avatar" id="user-avatar">A</div>
         <div>
           <div class="user-name" id="user-name">Admin</div>
-          <div class="user-role">Administrateur</div>
+          <div class="user-role" id="user-role">Administrateur</div>
         </div>
       </div>
     </div>
@@ -1129,61 +985,46 @@
     <div class="topbar">
       <div class="topbar-title" id="topbar-title">Tableau de bord</div>
       <div class="topbar-actions">
-        <button class="btn-secondary" onclick="showPage('leads', document.querySelector('.nav-item:nth-child(1)'))">+ Nouveau lead</button>
-        <button class="btn-primary" onclick="showPage('scripts', document.querySelector('.nav-item:nth-child(1)'))">🎯 Lancer une session</button>
+        <button class="btn-secondary" onclick="openAddLead()">+ Nouveau lead</button>
+        <button class="btn-primary" onclick="showPage('scripts', null)">🎯 Lancer une session</button>
       </div>
     </div>
 
     <div class="page-body">
+
+      <div class="config-banner" id="config-banner"></div>
 
       <!-- DASHBOARD -->
       <div class="page-section active" id="sec-dashboard">
         <div class="kpi-grid">
           <div class="kpi-card vert">
             <div class="kpi-label">Leads actifs</div>
-            <div class="kpi-value">24</div>
-            <div class="kpi-sub">+3 cette semaine</div>
+            <div class="kpi-value" id="kpi-actifs">0</div>
+            <div class="kpi-sub">En cours de traitement</div>
           </div>
           <div class="kpi-card bleu">
             <div class="kpi-label">RDV planifiés</div>
-            <div class="kpi-value">7</div>
-            <div class="kpi-sub">2 aujourd'hui</div>
+            <div class="kpi-value" id="kpi-rdv">0</div>
+            <div class="kpi-sub">Rendez-vous pris</div>
           </div>
           <div class="kpi-card orange">
             <div class="kpi-label">À rappeler</div>
-            <div class="kpi-value">11</div>
-            <div class="kpi-sub">Dont 4 urgents</div>
+            <div class="kpi-value" id="kpi-rappel">0</div>
+            <div class="kpi-sub">Contactés + NRP</div>
           </div>
           <div class="kpi-card rouge">
             <div class="kpi-label">Dossiers signés</div>
-            <div class="kpi-value">3</div>
-            <div class="kpi-sub">Ce mois-ci</div>
+            <div class="kpi-value" id="kpi-signes">0</div>
+            <div class="kpi-sub">Total signés</div>
           </div>
         </div>
 
         <div class="section-header">
           <div class="section-title">Derniers leads</div>
-          <button class="btn-secondary" onclick="showPage('leads', document.querySelectorAll('.nav-item')[2])">Voir tous</button>
+          <button class="btn-secondary" onclick="showPage('leads', null)">Voir tous</button>
         </div>
 
         <div class="table-container">
-          <div class="table-search">
-            <input class="search-input" type="text" placeholder="🔍 Rechercher un lead...">
-            <select class="filter-select">
-              <option>Tous les statuts</option>
-              <option>Nouveau</option>
-              <option>Contacté</option>
-              <option>RDV pris</option>
-              <option>NRP</option>
-            </select>
-            <select class="filter-select">
-              <option>Tous les produits</option>
-              <option>PAC Air/Eau</option>
-              <option>Isolation</option>
-              <option>Rénovation ampleur</option>
-              <option>VMC</option>
-            </select>
-          </div>
           <table>
             <thead>
               <tr>
@@ -1195,88 +1036,7 @@
                 <th>Date</th>
               </tr>
             </thead>
-            <tbody>
-              <tr onclick="showPage('fiche', null)">
-                <td>
-                  <div class="lead-name">Martin Bernard</div>
-                  <div class="lead-info">06 12 34 56 78 · martin.b@gmail.com</div>
-                </td>
-                <td><span class="status-badge status-rdv">RDV pris</span></td>
-                <td><span class="produit-tag">PAC Air/Eau</span></td>
-                <td>93 — Seine-St-Denis</td>
-                <td>
-                  <div class="score-bar">
-                    <div class="score-track"><div class="score-fill" style="width:85%"></div></div>
-                    <div class="score-num">85</div>
-                  </div>
-                </td>
-                <td style="color:var(--texte2); font-size:12px">Aujourd'hui</td>
-              </tr>
-              <tr onclick="showPage('fiche', null)">
-                <td>
-                  <div class="lead-name">Sophie Lefebvre</div>
-                  <div class="lead-info">06 98 76 54 32 · s.lefebvre@orange.fr</div>
-                </td>
-                <td><span class="status-badge status-contact">Contacté</span></td>
-                <td><span class="produit-tag">Isolation combles</span></td>
-                <td>77 — Seine-et-Marne</td>
-                <td>
-                  <div class="score-bar">
-                    <div class="score-track"><div class="score-fill orange" style="width:60%"></div></div>
-                    <div class="score-num">60</div>
-                  </div>
-                </td>
-                <td style="color:var(--texte2); font-size:12px">Hier</td>
-              </tr>
-              <tr onclick="showPage('fiche', null)">
-                <td>
-                  <div class="lead-name">Jean-Pierre Moreau</div>
-                  <div class="lead-info">06 55 44 33 22 · jp.moreau@free.fr</div>
-                </td>
-                <td><span class="status-badge status-nouveau">Nouveau</span></td>
-                <td><span class="produit-tag">Rénov. ampleur</span></td>
-                <td>95 — Val-d'Oise</td>
-                <td>
-                  <div class="score-bar">
-                    <div class="score-track"><div class="score-fill" style="width:72%"></div></div>
-                    <div class="score-num">72</div>
-                  </div>
-                </td>
-                <td style="color:var(--texte2); font-size:12px">18 juin</td>
-              </tr>
-              <tr onclick="showPage('fiche', null)">
-                <td>
-                  <div class="lead-name">Fatima Benali</div>
-                  <div class="lead-info">06 11 22 33 44 · f.benali@sfr.fr</div>
-                </td>
-                <td><span class="status-badge status-nrp">NRP</span></td>
-                <td><span class="produit-tag">VMC Double flux</span></td>
-                <td>91 — Essonne</td>
-                <td>
-                  <div class="score-bar">
-                    <div class="score-track"><div class="score-fill rouge" style="width:30%"></div></div>
-                    <div class="score-num">30</div>
-                  </div>
-                </td>
-                <td style="color:var(--texte2); font-size:12px">17 juin</td>
-              </tr>
-              <tr onclick="showPage('fiche', null)">
-                <td>
-                  <div class="lead-name">André Dupont</div>
-                  <div class="lead-info">06 77 88 99 00 · a.dupont@gmail.com</div>
-                </td>
-                <td><span class="status-badge status-signe">✓ Signé</span></td>
-                <td><span class="produit-tag">PAC Air/Eau</span></td>
-                <td>75 — Paris</td>
-                <td>
-                  <div class="score-bar">
-                    <div class="score-track"><div class="score-fill" style="width:95%"></div></div>
-                    <div class="score-num">95</div>
-                  </div>
-                </td>
-                <td style="color:var(--texte2); font-size:12px">15 juin</td>
-              </tr>
-            </tbody>
+            <tbody id="dashBody"></tbody>
           </table>
         </div>
       </div>
@@ -1284,33 +1044,27 @@
       <!-- LEADS -->
       <div class="page-section" id="sec-leads">
         <div class="section-header">
-          <div class="section-title">Tous les leads (24)</div>
-          <button class="btn-primary">+ Ajouter un lead</button>
+          <div class="section-title" id="leads-title">Tous les leads</div>
+          <button class="btn-primary" onclick="openAddLead()">+ Ajouter un lead</button>
         </div>
         <div class="table-container">
           <div class="table-search">
-            <input class="search-input" type="text" placeholder="🔍 Rechercher...">
-            <select class="filter-select">
-              <option>Tous les statuts</option>
-              <option>Nouveau</option>
-              <option>Contacté</option>
-              <option>RDV pris</option>
-              <option>NRP</option>
-              <option>Signé</option>
+            <input class="search-input" type="text" id="search-leads" placeholder="🔍 Rechercher..." oninput="renderLeads()">
+            <select class="filter-select" id="filter-statut" onchange="renderLeads()">
+              <option value="">Tous les statuts</option>
+              <option value="nouveau">Nouveau</option>
+              <option value="contacte">Contacté</option>
+              <option value="rdv">RDV pris</option>
+              <option value="devis">Devis envoyé</option>
+              <option value="signe">Signé</option>
+              <option value="nrp">NRP</option>
             </select>
-            <select class="filter-select">
-              <option>Tous les produits</option>
+            <select class="filter-select" id="filter-produit" onchange="renderLeads()">
+              <option value="">Tous les produits</option>
               <option>PAC Air/Eau</option>
-              <option>Isolation</option>
+              <option>Isolation combles</option>
               <option>Rénovation ampleur</option>
-            </select>
-            <select class="filter-select">
-              <option>Tous les depts</option>
-              <option>75 - Paris</option>
-              <option>77 - Seine-et-Marne</option>
-              <option>91 - Essonne</option>
-              <option>93 - Seine-St-Denis</option>
-              <option>95 - Val-d'Oise</option>
+              <option>VMC Double flux</option>
             </select>
           </div>
           <table>
@@ -1324,32 +1078,7 @@
                 <th>Créé le</th>
               </tr>
             </thead>
-            <tbody>
-              <tr onclick="showPage('fiche', null)">
-                <td><div class="lead-name">Martin Bernard</div><div class="lead-info">06 12 34 56 78</div></td>
-                <td><span class="status-badge status-rdv">RDV pris</span></td>
-                <td><span class="produit-tag">PAC Air/Eau</span></td>
-                <td>93</td>
-                <td><div class="score-bar"><div class="score-track"><div class="score-fill" style="width:85%"></div></div><div class="score-num">85</div></div></td>
-                <td style="color:var(--texte2);font-size:12px">Auj.</td>
-              </tr>
-              <tr onclick="showPage('fiche', null)">
-                <td><div class="lead-name">Sophie Lefebvre</div><div class="lead-info">06 98 76 54 32</div></td>
-                <td><span class="status-badge status-contact">Contacté</span></td>
-                <td><span class="produit-tag">Isolation</span></td>
-                <td>77</td>
-                <td><div class="score-bar"><div class="score-track"><div class="score-fill orange" style="width:60%"></div></div><div class="score-num">60</div></div></td>
-                <td style="color:var(--texte2);font-size:12px">Hier</td>
-              </tr>
-              <tr onclick="showPage('fiche', null)">
-                <td><div class="lead-name">Jean-Pierre Moreau</div><div class="lead-info">06 55 44 33 22</div></td>
-                <td><span class="status-badge status-nouveau">Nouveau</span></td>
-                <td><span class="produit-tag">Rénov. ampleur</span></td>
-                <td>95</td>
-                <td><div class="score-bar"><div class="score-track"><div class="score-fill" style="width:72%"></div></div><div class="score-num">72</div></div></td>
-                <td style="color:var(--texte2);font-size:12px">18 juin</td>
-              </tr>
-            </tbody>
+            <tbody id="leadsBody"></tbody>
           </table>
         </div>
       </div>
@@ -1358,218 +1087,14 @@
       <div class="page-section" id="sec-pipeline">
         <div class="section-header">
           <div class="section-title">Pipeline commercial</div>
+          <button class="btn-primary" onclick="openAddLead()">+ Ajouter un lead</button>
         </div>
-        <div class="kanban-board">
-          <div class="kanban-col">
-            <div class="kanban-header bleu">
-              <span class="kanban-col-title">Nouveau</span>
-              <span class="kanban-count">3</span>
-            </div>
-            <div class="kanban-body">
-              <div class="kanban-card" onclick="showPage('fiche', null)">
-                <div class="kanban-card-name">Jean-Pierre Moreau</div>
-                <div class="kanban-card-info">95 · Rénov. ampleur</div>
-                <div class="kanban-card-footer">
-                  <span class="kanban-card-tag">Score 72</span>
-                  <span class="kanban-card-date">18 juin</span>
-                </div>
-              </div>
-              <div class="kanban-card" onclick="showPage('fiche', null)">
-                <div class="kanban-card-name">Claire Rousseau</div>
-                <div class="kanban-card-info">75 · PAC Air/Eau</div>
-                <div class="kanban-card-footer">
-                  <span class="kanban-card-tag">Score 65</span>
-                  <span class="kanban-card-date">17 juin</span>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="kanban-col">
-            <div class="kanban-header orange">
-              <span class="kanban-col-title">Contacté</span>
-              <span class="kanban-count">4</span>
-            </div>
-            <div class="kanban-body">
-              <div class="kanban-card" onclick="showPage('fiche', null)">
-                <div class="kanban-card-name">Sophie Lefebvre</div>
-                <div class="kanban-card-info">77 · Isolation combles</div>
-                <div class="kanban-card-footer">
-                  <span class="kanban-card-tag">Score 60</span>
-                  <span class="kanban-card-date">Hier</span>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="kanban-col">
-            <div class="kanban-header">
-              <span class="kanban-col-title">RDV planifié</span>
-              <span class="kanban-count">2</span>
-            </div>
-            <div class="kanban-body">
-              <div class="kanban-card" onclick="showPage('fiche', null)">
-                <div class="kanban-card-name">Martin Bernard</div>
-                <div class="kanban-card-info">93 · PAC Air/Eau</div>
-                <div class="kanban-card-footer">
-                  <span class="kanban-card-tag">Score 85</span>
-                  <span class="kanban-card-date">Auj.</span>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="kanban-col">
-            <div class="kanban-header violet">
-              <span class="kanban-col-title">Devis envoyé</span>
-              <span class="kanban-count">1</span>
-            </div>
-            <div class="kanban-body">
-              <div class="empty-state" style="padding:30px 10px">
-                <div style="font-size:24px;margin-bottom:8px">📄</div>
-                <div style="font-size:12px;color:var(--texte2)">Aucun devis en cours</div>
-              </div>
-            </div>
-          </div>
-          <div class="kanban-col">
-            <div class="kanban-header vert">
-              <span class="kanban-col-title">Signé</span>
-              <span class="kanban-count">3</span>
-            </div>
-            <div class="kanban-body">
-              <div class="kanban-card" onclick="showPage('fiche', null)">
-                <div class="kanban-card-name">André Dupont</div>
-                <div class="kanban-card-info">75 · PAC Air/Eau</div>
-                <div class="kanban-card-footer">
-                  <span class="kanban-card-tag">Score 95</span>
-                  <span class="kanban-card-date">15 juin</span>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
+        <div class="kanban-board" id="kanbanBoard"></div>
       </div>
 
       <!-- FICHE LEAD -->
       <div class="page-section" id="sec-fiche">
-        <div class="section-header">
-          <div>
-            <button class="btn-secondary" style="margin-bottom:12px" onclick="showPage('leads', null)">← Retour</button>
-            <div class="section-title">Martin Bernard</div>
-          </div>
-          <div style="display:flex;gap:10px">
-            <button class="btn-secondary">📞 Appeler</button>
-            <button class="btn-secondary">📅 Planifier RDV</button>
-            <button class="btn-primary">✓ Marquer comme signé</button>
-          </div>
-        </div>
-
-        <div class="fiche-grid">
-          <div>
-            <div class="card">
-              <div class="card-title">Informations prospect</div>
-              <div class="field-row">
-                <div class="field-group"><label>Nom</label><div class="field-value">Martin Bernard</div></div>
-                <div class="field-group"><label>Téléphone</label><div class="field-value" style="color:var(--vert)">06 12 34 56 78</div></div>
-              </div>
-              <div class="field-row">
-                <div class="field-group"><label>Email</label><div class="field-value">martin.b@gmail.com</div></div>
-                <div class="field-group"><label>Département</label><div class="field-value">93 — Seine-Saint-Denis</div></div>
-              </div>
-              <div class="field-row">
-                <div class="field-group"><label>Statut logement</label><div class="field-value">Propriétaire · Maison individuelle</div></div>
-                <div class="field-group"><label>Zone climatique</label><div class="field-value">H1</div></div>
-              </div>
-              <div class="field-row">
-                <div class="field-group"><label>Chauffage actuel</label><div class="field-value">Gaz — chaudière ancienne</div></div>
-                <div class="field-group"><label>Facture EDF/mois</label><div class="field-value">~280 €</div></div>
-              </div>
-            </div>
-
-            <div class="card">
-              <div class="card-title">Produit & statut</div>
-              <div class="field-row">
-                <div class="field-group"><label>Produit ciblé</label><div class="field-value" style="color:var(--vert)">PAC Air/Eau (BAR-TH-171)</div></div>
-                <div class="field-group"><label>Statut pipeline</label><div><span class="status-badge status-rdv">RDV pris</span></div></div>
-              </div>
-              <div class="field-row">
-                <div class="field-group"><label>Prime CEE estimée</label><div class="field-value" style="color:var(--vert)">4 200 €</div></div>
-                <div class="field-group"><label>Score qualification</label><div class="field-value">85 / 100</div></div>
-              </div>
-              <div style="margin-top:8px">
-                <label style="font-size:11px;font-weight:600;color:var(--texte2);letter-spacing:0.5px;text-transform:uppercase;display:block;margin-bottom:8px">Statut du dossier</label>
-                <select class="filter-select" style="width:100%;padding:11px 14px">
-                  <option>🔵 Nouveau lead</option>
-                  <option>🟠 Contacté</option>
-                  <option selected>🟢 RDV planifié</option>
-                  <option>📄 Devis envoyé</option>
-                  <option>✅ Signé</option>
-                  <option>❌ NRP</option>
-                </select>
-              </div>
-            </div>
-
-            <div class="card">
-              <div class="card-title">Notes & suivi</div>
-              <textarea class="note-input" placeholder="Ajouter une note sur cet appel, ce rendez-vous..."></textarea>
-              <button class="btn-primary" style="font-size:12px;padding:8px 16px">Enregistrer la note</button>
-
-              <div style="margin-top:20px">
-                <div class="timeline">
-                  <div class="timeline-item">
-                    <div class="timeline-dot">📞</div>
-                    <div class="timeline-content">
-                      <div class="timeline-text">Appel entrant — très intéressé par la PAC, facture de gaz très élevée. RDV planifié.</div>
-                      <div class="timeline-date">Aujourd'hui à 10h34</div>
-                    </div>
-                  </div>
-                  <div class="timeline-item">
-                    <div class="timeline-dot">📊</div>
-                    <div class="timeline-content">
-                      <div class="timeline-text">Lead créé depuis le simulateur web LEDAS PV</div>
-                      <div class="timeline-date">18 juin 2026 à 09h12</div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <div>
-            <div class="card">
-              <div class="card-title">RDV technicien</div>
-              <div style="margin-bottom:12px">
-                <label style="font-size:11px;font-weight:600;color:var(--texte2);letter-spacing:0.5px;text-transform:uppercase;display:block;margin-bottom:6px">Date & heure</label>
-                <input type="datetime-local" class="search-input" style="width:100%">
-              </div>
-              <div style="margin-bottom:16px">
-                <label style="font-size:11px;font-weight:600;color:var(--texte2);letter-spacing:0.5px;text-transform:uppercase;display:block;margin-bottom:6px">Adresse</label>
-                <input type="text" class="search-input" style="width:100%" placeholder="12 rue des Lilas, 93000 Bobigny">
-              </div>
-              <button class="btn-primary" style="width:100%">📅 Confirmer le RDV</button>
-            </div>
-
-            <div class="card">
-              <div class="card-title">Rappels</div>
-              <div style="display:flex;flex-direction:column;gap:8px">
-                <div style="display:flex;align-items:center;justify-content:space-between;background:rgba(255,140,66,0.1);border:1px solid rgba(255,140,66,0.2);border-radius:8px;padding:10px 14px">
-                  <div>
-                    <div style="font-size:12px;font-weight:600;color:var(--orange)">Rappel dans 15 min</div>
-                    <div style="font-size:11px;color:var(--texte2)">Confirmer le RDV</div>
-                  </div>
-                  <span style="font-size:18px">⏰</span>
-                </div>
-              </div>
-            </div>
-
-            <div class="card">
-              <div class="card-title">Fiche CEE applicable</div>
-              <div style="background:rgba(0,229,160,0.08);border:1px solid rgba(0,229,160,0.2);border-radius:8px;padding:14px">
-                <div style="font-size:13px;font-weight:600;color:var(--vert);margin-bottom:6px">BAR-TH-171</div>
-                <div style="font-size:12px;color:var(--texte2);margin-bottom:10px">Pompe à chaleur de type air/eau — France métropolitaine</div>
-                <div style="font-size:12px;color:var(--texte);margin-bottom:4px">Zone H1 · Maison individuelle</div>
-                <div style="font-size:13px;font-weight:600;color:var(--vert)">Prime estimée : 4 200 €</div>
-              </div>
-            </div>
-          </div>
-        </div>
+        <div id="ficheContent"></div>
       </div>
 
       <!-- SCRIPTS + IA -->
@@ -1687,7 +1212,7 @@
 
       <!-- PAGES VIDES (à développer) -->
       <div class="page-section" id="sec-rdvs">
-        <div class="section-header"><div class="section-title">Rendez-vous</div><button class="btn-primary">+ Nouveau RDV</button></div>
+        <div class="section-header"><div class="section-title">Rendez-vous</div></div>
         <div class="table-container"><div class="empty-state"><div class="icon">📅</div><h3>Planning des RDV</h3><p>Le calendrier avec calcul de distances arrive bientôt</p></div></div>
       </div>
 
@@ -1707,7 +1232,7 @@
       </div>
 
       <div class="page-section" id="sec-produits">
-        <div class="section-header"><div class="section-title">Catalogue produits CEE</div><button class="btn-primary">+ Ajouter un produit</button></div>
+        <div class="section-header"><div class="section-title">Catalogue produits CEE</div></div>
         <div class="table-container"><div class="empty-state"><div class="icon">⚡</div><h3>Produits CEE</h3><p>Gérez vos fiches CEE actives et leurs critères d'éligibilité</p></div></div>
       </div>
 
@@ -1715,37 +1240,583 @@
   </div>
 </div>
 
+<!-- ===== MODALE AJOUT / EDITION LEAD ===== -->
+<div class="modal-overlay" id="modal-lead">
+  <div class="modal">
+    <div class="modal-title">
+      <span id="modal-lead-title">Nouveau lead</span>
+      <button class="modal-close" onclick="closeAddLead()">×</button>
+    </div>
+    <div class="modal-grid">
+      <input type="hidden" id="f-id">
+      <div class="full">
+        <label>Nom complet *</label>
+        <input type="text" id="f-nom" placeholder="Prénom Nom">
+      </div>
+      <div>
+        <label>Téléphone</label>
+        <input type="text" id="f-telephone" placeholder="06 12 34 56 78">
+      </div>
+      <div>
+        <label>Email</label>
+        <input type="email" id="f-email" placeholder="client@email.com">
+      </div>
+      <div>
+        <label>Département</label>
+        <input type="text" id="f-departement" placeholder="93">
+      </div>
+      <div>
+        <label>Produit ciblé</label>
+        <select id="f-produit">
+          <option>PAC Air/Eau</option>
+          <option>Isolation combles</option>
+          <option>Rénovation ampleur</option>
+          <option>VMC Double flux</option>
+        </select>
+      </div>
+      <div>
+        <label>Statut</label>
+        <select id="f-statut">
+          <option value="nouveau">Nouveau</option>
+          <option value="contacte">Contacté</option>
+          <option value="rdv">RDV pris</option>
+          <option value="devis">Devis envoyé</option>
+          <option value="signe">Signé</option>
+          <option value="nrp">NRP</option>
+        </select>
+      </div>
+      <div>
+        <label>Score (0-100)</label>
+        <input type="number" id="f-score" min="0" max="100" value="50">
+      </div>
+      <div>
+        <label>Statut logement</label>
+        <input type="text" id="f-logement" placeholder="Propriétaire · Maison">
+      </div>
+      <div>
+        <label>Zone climatique</label>
+        <input type="text" id="f-zone" placeholder="H1">
+      </div>
+      <div>
+        <label>Chauffage actuel</label>
+        <input type="text" id="f-chauffage" placeholder="Gaz, fioul, électrique...">
+      </div>
+      <div>
+        <label>Facture mensuelle</label>
+        <input type="text" id="f-facture" placeholder="~280 €">
+      </div>
+      <div>
+        <label>Prime CEE estimée (€)</label>
+        <input type="number" id="f-prime" placeholder="4200">
+      </div>
+      <div class="full">
+        <label>Notes</label>
+        <textarea id="f-notes" rows="2" placeholder="Commentaire, contexte de l'appel..."></textarea>
+      </div>
+    </div>
+    <div class="modal-actions">
+      <button class="btn-secondary" onclick="closeAddLead()">Annuler</button>
+      <button class="btn-primary" id="btn-save-lead" onclick="saveLead()">Enregistrer le lead</button>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<!-- Client Supabase -->
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script>
+  /* =====================================================================
+     CONFIGURATION SUPABASE
+     Remplace les 2 valeurs ci-dessous par celles de TON projet Supabase :
+       Supabase → Project Settings → API
+         - "Project URL"      → SUPABASE_URL
+         - "anon public" key  → SUPABASE_ANON_KEY
+     ===================================================================== */
+  const SUPABASE_URL = 'https://ezkhmemtbqhzcgdwdygt.supabase.co';
+  const SUPABASE_ANON_KEY = 'sb_publishable_V65XoSA4_cDCUebLBmo9nA_Mo0P6f7c';
+
+  // (Optionnel) clé API Anthropic pour l'assistant IA — laisser vide pour l'instant.
+  const ANTHROPIC_API_KEY = '';
+
+  // ===== ÉTAT =====
+  let sb = null;
+  let LEADS = [];
+  let currentFicheId = null;
+  const isConfigured = () => SUPABASE_URL.startsWith('https://') && !SUPABASE_URL.includes('VOTRE-PROJET') && SUPABASE_ANON_KEY && !SUPABASE_ANON_KEY.includes('VOTRE_CLE');
+
+  function loadScript(src) {
+    return new Promise((res, rej) => {
+      const s = document.createElement('script');
+      s.src = src;
+      s.onload = res;
+      s.onerror = () => rej(new Error('Echec chargement ' + src));
+      document.head.appendChild(s);
+    });
+  }
+
+  // Crée (ou récupère) le client Supabase, en chargeant la librairie à la demande si besoin.
+  async function ensureClient() {
+    if (sb) return sb;
+    if (!window.supabase || !window.supabase.createClient) {
+      try { await loadScript('https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2'); }
+      catch (e) {
+        try { await loadScript('https://unpkg.com/@supabase/supabase-js@2'); }
+        catch (e2) { throw new Error('Librairie Supabase non chargée (connexion internet ?).'); }
+      }
+    }
+    if (!window.supabase || !window.supabase.createClient) throw new Error('Librairie Supabase indisponible.');
+    sb = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+    return sb;
+  }
+
+  // ===== DÉFINITION DES STATUTS =====
+  const STATUTS = {
+    nouveau:  { label: 'Nouveau',      badge: 'status-nouveau', col: 'bleu',   pipe: 'Nouveau' },
+    contacte: { label: 'Contacté',     badge: 'status-contact', col: 'orange', pipe: 'Contacté' },
+    rdv:      { label: 'RDV pris',      badge: 'status-rdv',     col: '',       pipe: 'RDV planifié' },
+    devis:    { label: 'Devis envoyé',  badge: 'status-devis',   col: 'violet', pipe: 'Devis envoyé' },
+    signe:    { label: '✓ Signé',       badge: 'status-signe',   col: 'vert',   pipe: 'Signé' },
+    nrp:      { label: 'NRP',           badge: 'status-nrp',      col: 'rouge',  pipe: 'NRP' }
+  };
+  const PIPE_ORDER = ['nouveau', 'contacte', 'rdv', 'devis', 'signe'];
+
+  // ===== UTILITAIRES =====
+  function esc(s) { return String(s ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
+
+  function scoreClass(n) { n = +n || 0; return n >= 70 ? '' : (n >= 40 ? 'orange' : 'rouge'); }
+
+  function fmtDate(iso) {
+    if (!iso) return '';
+    const d = new Date(iso), now = new Date();
+    const sameDay = d.toDateString() === now.toDateString();
+    const yest = new Date(now); yest.setDate(now.getDate() - 1);
+    if (sameDay) return "Auj.";
+    if (d.toDateString() === yest.toDateString()) return "Hier";
+    return d.toLocaleDateString('fr-FR', { day: 'numeric', month: 'short' });
+  }
+
+  function toast(msg, type) {
+    const t = document.getElementById('toast');
+    t.textContent = msg;
+    t.className = 'toast show ' + (type || '');
+    setTimeout(() => { t.className = 'toast ' + (type || ''); }, 2800);
+  }
+
+  function statutBadge(s) {
+    const st = STATUTS[s] || STATUTS.nouveau;
+    return `<span class="status-badge ${st.badge}">${esc(st.label)}</span>`;
+  }
+
+  function scoreBar(n) {
+    n = +n || 0;
+    return `<div class="score-bar"><div class="score-track"><div class="score-fill ${scoreClass(n)}" style="width:${n}%"></div></div><div class="score-num">${n}</div></div>`;
+  }
+
   // ===== AUTH =====
   const USERS = {
-    'admin@gmcrm.fr': { pwd: 'gm2026', name: 'Admin GM', role: 'Administrateur' },
+    'admin@gmcrm.fr':       { pwd: 'gm2026', name: 'Admin GM', role: 'Administrateur' },
     'prospecteur@gmcrm.fr': { pwd: 'gm2026', name: 'Télépro 1', role: 'Téléprospecteur' }
   };
 
   function login() {
-    const email = document.getElementById('login-email').value.trim();
+    const email = document.getElementById('login-email').value.trim().toLowerCase();
     const pwd = document.getElementById('login-pwd').value;
     const err = document.getElementById('login-error');
-
     if (USERS[email] && USERS[email].pwd === pwd) {
       const user = USERS[email];
       document.getElementById('user-name').textContent = user.name;
+      document.getElementById('user-role').textContent = user.role;
       document.getElementById('user-avatar').textContent = user.name[0].toUpperCase();
       document.getElementById('page-login').style.display = 'none';
       document.getElementById('page-app').style.display = 'block';
       err.style.display = 'none';
+      initApp();
     } else {
       err.style.display = 'block';
     }
   }
 
-  document.getElementById('login-pwd').addEventListener('keydown', e => {
-    if (e.key === 'Enter') login();
-  });
+  document.getElementById('login-pwd').addEventListener('keydown', e => { if (e.key === 'Enter') login(); });
 
   function logout() {
     document.getElementById('page-login').style.display = 'flex';
     document.getElementById('page-app').style.display = 'none';
+  }
+
+  // ===== INIT + CHARGEMENT DES DONNÉES =====
+  async function initApp() {
+    const banner = document.getElementById('config-banner');
+    if (!isConfigured()) {
+      banner.style.display = 'block';
+      banner.innerHTML = "⚙️ <strong>Supabase pas encore configuré.</strong> Renseigne SUPABASE_URL et SUPABASE_ANON_KEY en haut du script, puis recharge la page. En attendant, le CRM affiche des données de démonstration locales.";
+      LEADS = demoLeads();
+      renderAll();
+      return;
+    }
+    banner.style.display = 'none';
+    try {
+      await ensureClient();
+      await loadLeads();
+    } catch (e) {
+      banner.style.display = 'block';
+      banner.innerHTML = "⚠️ <strong>Connexion à la base impossible.</strong> " + (e.message || e) + " Vérifie ta connexion internet puis recharge la page (les données de démo s'affichent en attendant).";
+      LEADS = demoLeads();
+      renderAll();
+    }
+  }
+
+  async function loadLeads() {
+    try {
+      await ensureClient();
+      const { data, error } = await sb.from('leads').select('*').order('created_at', { ascending: false });
+      if (error) throw error;
+      LEADS = data || [];
+      renderAll();
+    } catch (e) {
+      console.error(e);
+      toast('Erreur de chargement : ' + (e.message || e), 'err');
+    }
+  }
+
+  function demoLeads() {
+    return [
+      { id: 'demo1', created_at: new Date().toISOString(), nom: 'Martin Bernard', telephone: '06 12 34 56 78', email: 'martin.b@gmail.com', departement: '93', produit: 'PAC Air/Eau', statut: 'rdv', score: 85, statut_logement: 'Propriétaire · Maison individuelle', zone_climatique: 'H1', chauffage_actuel: 'Gaz — chaudière ancienne', facture_mensuelle: '~280 €', prime_cee: 4200, notes: '', source: 'Simulateur web LEDAS PV' },
+      { id: 'demo2', created_at: new Date(Date.now()-86400000).toISOString(), nom: 'Sophie Lefebvre', telephone: '06 98 76 54 32', email: 's.lefebvre@orange.fr', departement: '77', produit: 'Isolation combles', statut: 'contacte', score: 60, statut_logement: 'Propriétaire · Maison', zone_climatique: 'H1', chauffage_actuel: 'Électrique', facture_mensuelle: '~190 €', prime_cee: 1800, notes: '', source: 'Saisie manuelle' },
+      { id: 'demo3', created_at: new Date(Date.now()-6*86400000).toISOString(), nom: 'Jean-Pierre Moreau', telephone: '06 55 44 33 22', email: 'jp.moreau@free.fr', departement: '95', produit: 'Rénovation ampleur', statut: 'nouveau', score: 72, statut_logement: 'Propriétaire · Maison', zone_climatique: 'H1', chauffage_actuel: 'Fioul', facture_mensuelle: '~320 €', prime_cee: 9000, notes: '', source: 'Saisie manuelle' },
+      { id: 'demo4', created_at: new Date(Date.now()-9*86400000).toISOString(), nom: 'André Dupont', telephone: '06 77 88 99 00', email: 'a.dupont@gmail.com', departement: '75', produit: 'PAC Air/Eau', statut: 'signe', score: 95, statut_logement: 'Propriétaire · Appartement', zone_climatique: 'H1', chauffage_actuel: 'Gaz', facture_mensuelle: '~250 €', prime_cee: 4200, notes: '', source: 'Saisie manuelle' }
+    ];
+  }
+
+  // ===== RENDU GLOBAL =====
+  function renderAll() {
+    renderKPIs();
+    renderDashboard();
+    renderLeads();
+    renderPipeline();
+    renderBadges();
+  }
+
+  function renderBadges() {
+    const actifs = LEADS.filter(l => l.statut !== 'signe').length;
+    const rdv = LEADS.filter(l => l.statut === 'rdv').length;
+    const arappeler = LEADS.filter(l => l.statut === 'contacte' || l.statut === 'nrp').length;
+    document.getElementById('badge-pipeline').textContent = actifs;
+    document.getElementById('badge-leads').textContent = LEADS.length;
+    document.getElementById('badge-rdv').textContent = rdv;
+  }
+
+  function renderKPIs() {
+    document.getElementById('kpi-actifs').textContent = LEADS.filter(l => l.statut !== 'signe').length;
+    document.getElementById('kpi-rdv').textContent = LEADS.filter(l => l.statut === 'rdv').length;
+    document.getElementById('kpi-rappel').textContent = LEADS.filter(l => l.statut === 'contacte' || l.statut === 'nrp').length;
+    document.getElementById('kpi-signes').textContent = LEADS.filter(l => l.statut === 'signe').length;
+  }
+
+  function rowHTML(l) {
+    return `<tr onclick="openFiche('${l.id}')">
+      <td><div class="lead-name">${esc(l.nom)}</div><div class="lead-info">${esc(l.telephone || '')}${l.email ? ' · ' + esc(l.email) : ''}</div></td>
+      <td>${statutBadge(l.statut)}</td>
+      <td><span class="produit-tag">${esc(l.produit || '—')}</span></td>
+      <td>${esc(l.departement || '—')}</td>
+      <td>${scoreBar(l.score)}</td>
+      <td style="color:var(--texte2);font-size:12px">${fmtDate(l.created_at)}</td>
+    </tr>`;
+  }
+
+  function renderDashboard() {
+    const body = document.getElementById('dashBody');
+    const recent = LEADS.slice(0, 6);
+    body.innerHTML = recent.length ? recent.map(rowHTML).join('') :
+      `<tr><td colspan="6"><div class="empty-state"><div class="icon">👥</div><h3>Aucun lead</h3><p>Clique sur « + Nouveau lead » pour commencer.</p></div></td></tr>`;
+  }
+
+  function renderLeads() {
+    const q = (document.getElementById('search-leads').value || '').toLowerCase();
+    const fs = document.getElementById('filter-statut').value;
+    const fp = document.getElementById('filter-produit').value;
+    let list = LEADS.filter(l => {
+      const matchQ = !q || [l.nom, l.telephone, l.email, l.departement].some(v => (v || '').toLowerCase().includes(q));
+      const matchS = !fs || l.statut === fs;
+      const matchP = !fp || l.produit === fp;
+      return matchQ && matchS && matchP;
+    });
+    document.getElementById('leads-title').textContent = `Tous les leads (${list.length})`;
+    const body = document.getElementById('leadsBody');
+    body.innerHTML = list.length ? list.map(rowHTML).join('') :
+      `<tr><td colspan="6"><div class="empty-state"><div class="icon">🔍</div><h3>Aucun résultat</h3><p>Aucun lead ne correspond à ta recherche.</p></div></td></tr>`;
+  }
+
+  function renderPipeline() {
+    const board = document.getElementById('kanbanBoard');
+    board.innerHTML = PIPE_ORDER.map(key => {
+      const st = STATUTS[key];
+      const cards = LEADS.filter(l => l.statut === key);
+      const cardsHTML = cards.length ? cards.map(l => `
+        <div class="kanban-card" onclick="openFiche('${l.id}')">
+          <div class="kanban-card-name">${esc(l.nom)}</div>
+          <div class="kanban-card-info">${esc(l.departement || '')} · ${esc(l.produit || '')}</div>
+          <div class="kanban-card-footer">
+            <span class="kanban-card-tag">Score ${(+l.score||0)}</span>
+            <span class="kanban-card-date">${fmtDate(l.created_at)}</span>
+          </div>
+        </div>`).join('') :
+        `<div class="empty-state" style="padding:30px 10px"><div style="font-size:24px;margin-bottom:8px">—</div><div style="font-size:12px;color:var(--texte2)">Vide</div></div>`;
+      return `<div class="kanban-col">
+        <div class="kanban-header ${st.col}">
+          <span class="kanban-col-title">${esc(st.pipe)}</span>
+          <span class="kanban-count">${cards.length}</span>
+        </div>
+        <div class="kanban-body">${cardsHTML}</div>
+      </div>`;
+    }).join('');
+  }
+
+  // ===== FICHE =====
+  function openFiche(id) {
+    const l = LEADS.find(x => String(x.id) === String(id));
+    if (!l) return;
+    currentFicheId = id;
+    const c = document.getElementById('ficheContent');
+    c.innerHTML = `
+      <div class="section-header">
+        <div>
+          <button class="btn-secondary" style="margin-bottom:12px" onclick="showPage('leads', null)">← Retour</button>
+          <div class="section-title">${esc(l.nom)}</div>
+        </div>
+        <div style="display:flex;gap:10px">
+          ${l.telephone ? `<a class="btn-secondary" href="tel:${esc(l.telephone.replace(/\\s/g,''))}">📞 Appeler</a>` : ''}
+          <button class="btn-primary" onclick="editFiche('${l.id}')">✏️ Modifier</button>
+        </div>
+      </div>
+      <div class="fiche-grid">
+        <div>
+          <div class="card">
+            <div class="card-title">Informations prospect</div>
+            <div class="field-row">
+              <div class="field-group"><label>Nom</label><div class="field-value">${esc(l.nom)}</div></div>
+              <div class="field-group"><label>Téléphone</label><div class="field-value" style="color:var(--vert)">${esc(l.telephone || '—')}</div></div>
+            </div>
+            <div class="field-row">
+              <div class="field-group"><label>Email</label><div class="field-value">${esc(l.email || '—')}</div></div>
+              <div class="field-group"><label>Département</label><div class="field-value">${esc(l.departement || '—')}</div></div>
+            </div>
+            <div class="field-row">
+              <div class="field-group"><label>Statut logement</label><div class="field-value">${esc(l.statut_logement || '—')}</div></div>
+              <div class="field-group"><label>Zone climatique</label><div class="field-value">${esc(l.zone_climatique || '—')}</div></div>
+            </div>
+            <div class="field-row">
+              <div class="field-group"><label>Chauffage actuel</label><div class="field-value">${esc(l.chauffage_actuel || '—')}</div></div>
+              <div class="field-group"><label>Facture / mois</label><div class="field-value">${esc(l.facture_mensuelle || '—')}</div></div>
+            </div>
+          </div>
+
+          <div class="card">
+            <div class="card-title">Produit & statut</div>
+            <div class="field-row">
+              <div class="field-group"><label>Produit ciblé</label><div class="field-value" style="color:var(--vert)">${esc(l.produit || '—')}</div></div>
+              <div class="field-group"><label>Statut pipeline</label><div>${statutBadge(l.statut)}</div></div>
+            </div>
+            <div class="field-row">
+              <div class="field-group"><label>Prime CEE estimée</label><div class="field-value" style="color:var(--vert)">${l.prime_cee ? (l.prime_cee + ' €') : '—'}</div></div>
+              <div class="field-group"><label>Score qualification</label><div class="field-value">${(+l.score||0)} / 100</div></div>
+            </div>
+            <div style="margin-top:8px">
+              <label style="font-size:11px;font-weight:600;color:var(--texte2);letter-spacing:0.5px;text-transform:uppercase;display:block;margin-bottom:8px">Changer le statut</label>
+              <select class="filter-select" style="width:100%;padding:11px 14px" onchange="changeStatut('${l.id}', this.value)">
+                ${Object.keys(STATUTS).map(k => `<option value="${k}" ${k === l.statut ? 'selected' : ''}>${esc(STATUTS[k].label)}</option>`).join('')}
+              </select>
+            </div>
+          </div>
+
+          <div class="card">
+            <div class="card-title">Notes & suivi</div>
+            <textarea class="note-input" id="fiche-note" placeholder="Ajouter une note sur cet appel, ce rendez-vous...">${esc(l.notes || '')}</textarea>
+            <button class="btn-primary" style="font-size:12px;padding:8px 16px" onclick="saveNote('${l.id}')">Enregistrer la note</button>
+            <div style="margin-top:20px">
+              <div class="timeline">
+                <div class="timeline-item">
+                  <div class="timeline-dot">📊</div>
+                  <div class="timeline-content">
+                    <div class="timeline-text">Lead créé — source : ${esc(l.source || 'Saisie manuelle')}</div>
+                    <div class="timeline-date">${new Date(l.created_at).toLocaleString('fr-FR')}</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div>
+          <div class="card">
+            <div class="card-title">Fiche CEE applicable</div>
+            <div style="background:rgba(0,229,160,0.08);border:1px solid rgba(0,229,160,0.2);border-radius:8px;padding:14px">
+              <div style="font-size:13px;font-weight:600;color:var(--vert);margin-bottom:6px">${esc(ficheCEE(l.produit).code)}</div>
+              <div style="font-size:12px;color:var(--texte2);margin-bottom:10px">${esc(ficheCEE(l.produit).desc)}</div>
+              <div style="font-size:12px;color:var(--texte);margin-bottom:4px">Zone ${esc(l.zone_climatique || 'H1')} · ${esc(l.statut_logement || '—')}</div>
+              <div style="font-size:13px;font-weight:600;color:var(--vert)">Prime estimée : ${l.prime_cee ? (l.prime_cee + ' €') : '—'}</div>
+            </div>
+          </div>
+          <div class="card">
+            <div class="card-title">Actions</div>
+            <button class="btn-secondary" style="width:100%;margin-bottom:10px" onclick="editFiche('${l.id}')">✏️ Modifier la fiche</button>
+            <button class="btn-secondary" style="width:100%;color:var(--rouge)" onclick="deleteLead('${l.id}')">🗑️ Supprimer le lead</button>
+          </div>
+        </div>
+      </div>`;
+    showPage('fiche', null);
+  }
+
+  function ficheCEE(produit) {
+    const map = {
+      'PAC Air/Eau': { code: 'BAR-TH-171', desc: 'Pompe à chaleur de type air/eau — France métropolitaine' },
+      'Isolation combles': { code: 'BAR-EN-101', desc: 'Isolation de combles ou de toitures' },
+      'Rénovation ampleur': { code: 'BAR-TH-174', desc: "Rénovation d'ampleur d'une maison individuelle" },
+      'VMC Double flux': { code: 'BAR-TH-125', desc: 'Système de ventilation double flux autoréglable' }
+    };
+    return map[produit] || { code: '—', desc: 'Fiche CEE à déterminer' };
+  }
+
+  // ===== AJOUT / ÉDITION =====
+  function openAddLead() {
+    document.getElementById('modal-lead-title').textContent = 'Nouveau lead';
+    document.getElementById('f-id').value = '';
+    ['f-nom','f-telephone','f-email','f-departement','f-logement','f-zone','f-chauffage','f-facture','f-prime','f-notes'].forEach(id => document.getElementById(id).value = '');
+    document.getElementById('f-produit').value = 'PAC Air/Eau';
+    document.getElementById('f-statut').value = 'nouveau';
+    document.getElementById('f-score').value = 50;
+    document.getElementById('modal-lead').classList.add('open');
+  }
+
+  function editFiche(id) {
+    const l = LEADS.find(x => String(x.id) === String(id));
+    if (!l) return;
+    document.getElementById('modal-lead-title').textContent = 'Modifier le lead';
+    document.getElementById('f-id').value = l.id;
+    document.getElementById('f-nom').value = l.nom || '';
+    document.getElementById('f-telephone').value = l.telephone || '';
+    document.getElementById('f-email').value = l.email || '';
+    document.getElementById('f-departement').value = l.departement || '';
+    document.getElementById('f-produit').value = l.produit || 'PAC Air/Eau';
+    document.getElementById('f-statut').value = l.statut || 'nouveau';
+    document.getElementById('f-score').value = l.score ?? 50;
+    document.getElementById('f-logement').value = l.statut_logement || '';
+    document.getElementById('f-zone').value = l.zone_climatique || '';
+    document.getElementById('f-chauffage').value = l.chauffage_actuel || '';
+    document.getElementById('f-facture').value = l.facture_mensuelle || '';
+    document.getElementById('f-prime').value = l.prime_cee ?? '';
+    document.getElementById('f-notes').value = l.notes || '';
+    document.getElementById('modal-lead').classList.add('open');
+  }
+
+  function closeAddLead() { document.getElementById('modal-lead').classList.remove('open'); }
+
+  function readForm() {
+    return {
+      nom: document.getElementById('f-nom').value.trim(),
+      telephone: document.getElementById('f-telephone').value.trim() || null,
+      email: document.getElementById('f-email').value.trim() || null,
+      departement: document.getElementById('f-departement').value.trim() || null,
+      produit: document.getElementById('f-produit').value,
+      statut: document.getElementById('f-statut').value,
+      score: parseInt(document.getElementById('f-score').value) || 0,
+      statut_logement: document.getElementById('f-logement').value.trim() || null,
+      zone_climatique: document.getElementById('f-zone').value.trim() || null,
+      chauffage_actuel: document.getElementById('f-chauffage').value.trim() || null,
+      facture_mensuelle: document.getElementById('f-facture').value.trim() || null,
+      prime_cee: document.getElementById('f-prime').value ? parseFloat(document.getElementById('f-prime').value) : null,
+      notes: document.getElementById('f-notes').value.trim() || null
+    };
+  }
+
+  async function saveLead() {
+    const data = readForm();
+    if (!data.nom) { toast('Le nom est obligatoire.', 'err'); return; }
+    const id = document.getElementById('f-id').value;
+    const btn = document.getElementById('btn-save-lead');
+    btn.disabled = true;
+
+    if (!isConfigured()) {
+      // Mode démo (sans Supabase)
+      if (id) {
+        const i = LEADS.findIndex(x => String(x.id) === String(id));
+        if (i > -1) LEADS[i] = { ...LEADS[i], ...data };
+      } else {
+        LEADS.unshift({ id: 'demo' + Date.now(), created_at: new Date().toISOString(), source: 'Saisie manuelle', ...data });
+      }
+      btn.disabled = false; closeAddLead(); renderAll();
+      toast('Enregistré (mode démo local).', 'ok');
+      return;
+    }
+
+    try {
+      await ensureClient();
+      if (id) {
+        const { error } = await sb.from('leads').update(data).eq('id', id);
+        if (error) throw error;
+        toast('Lead mis à jour ✓', 'ok');
+      } else {
+        data.source = 'Saisie manuelle';
+        const { error } = await sb.from('leads').insert([data]);
+        if (error) throw error;
+        toast('Lead créé ✓', 'ok');
+      }
+      closeAddLead();
+      await loadLeads();
+      if (id && currentFicheId === id) openFiche(id);
+    } catch (e) {
+      console.error(e);
+      toast('Erreur : ' + (e.message || e), 'err');
+    } finally {
+      btn.disabled = false;
+    }
+  }
+
+  async function changeStatut(id, statut) {
+    if (!isConfigured()) {
+      const i = LEADS.findIndex(x => String(x.id) === String(id));
+      if (i > -1) LEADS[i].statut = statut;
+      renderAll(); toast('Statut modifié (démo).', 'ok'); return;
+    }
+    try {
+      await ensureClient();
+      const { error } = await sb.from('leads').update({ statut }).eq('id', id);
+      if (error) throw error;
+      await loadLeads();
+      toast('Statut mis à jour ✓', 'ok');
+    } catch (e) { toast('Erreur : ' + (e.message || e), 'err'); }
+  }
+
+  async function saveNote(id) {
+    const notes = document.getElementById('fiche-note').value;
+    if (!isConfigured()) {
+      const i = LEADS.findIndex(x => String(x.id) === String(id));
+      if (i > -1) LEADS[i].notes = notes;
+      toast('Note enregistrée (démo).', 'ok'); return;
+    }
+    try {
+      await ensureClient();
+      const { error } = await sb.from('leads').update({ notes }).eq('id', id);
+      if (error) throw error;
+      await loadLeads();
+      toast('Note enregistrée ✓', 'ok');
+    } catch (e) { toast('Erreur : ' + (e.message || e), 'err'); }
+  }
+
+  async function deleteLead(id) {
+    if (!confirm('Supprimer définitivement ce lead ?')) return;
+    if (!isConfigured()) {
+      LEADS = LEADS.filter(x => String(x.id) !== String(id));
+      renderAll(); showPage('leads', null); toast('Lead supprimé (démo).', 'ok'); return;
+    }
+    try {
+      await ensureClient();
+      const { error } = await sb.from('leads').delete().eq('id', id);
+      if (error) throw error;
+      await loadLeads();
+      showPage('leads', null);
+      toast('Lead supprimé ✓', 'ok');
+    } catch (e) { toast('Erreur : ' + (e.message || e), 'err'); }
   }
 
   // ===== NAVIGATION =====
@@ -1753,15 +1824,13 @@
     document.querySelectorAll('.page-section').forEach(s => s.classList.remove('active'));
     document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
     document.getElementById('sec-' + page).classList.add('active');
-
     const titles = {
       dashboard: 'Tableau de bord', leads: 'Leads', pipeline: 'Pipeline',
-      fiche: 'Fiche prospect — Martin Bernard', scripts: 'Scripts + IA',
+      fiche: 'Fiche prospect', scripts: 'Scripts + IA',
       rdvs: 'Rendez-vous', dossiers: 'Dossiers CEE', clients: 'Clients',
       stats: 'Statistiques', produits: 'Produits CEE'
     };
     document.getElementById('topbar-title').textContent = titles[page] || page;
-
     if (navEl) navEl.classList.add('active');
   }
 
@@ -1779,11 +1848,7 @@
     const isOpen = ans.classList.contains('open');
     document.querySelectorAll('.objection-q').forEach(q => { q.classList.remove('open'); q.querySelector('span').textContent = '+'; });
     document.querySelectorAll('.objection-a').forEach(a => a.classList.remove('open'));
-    if (!isOpen) {
-      el.classList.add('open');
-      el.querySelector('span').textContent = '−';
-      ans.classList.add('open');
-    }
+    if (!isOpen) { el.classList.add('open'); el.querySelector('span').textContent = '−'; ans.classList.add('open'); }
   }
 
   // ===== IA ASSISTANT =====
@@ -1791,43 +1856,43 @@
     const input = document.getElementById('ia-input');
     const question = input.value.trim();
     if (!question) return;
-
     const msgs = document.getElementById('ia-messages');
-
-    // Message utilisateur
     const qDiv = document.createElement('div');
     qDiv.className = 'ia-msg question';
     qDiv.textContent = question;
     msgs.appendChild(qDiv);
     input.value = '';
     msgs.scrollTop = msgs.scrollHeight;
-
-    // Réponse IA
     const aDiv = document.createElement('div');
     aDiv.className = 'ia-msg';
     aDiv.textContent = '...';
     msgs.appendChild(aDiv);
     msgs.scrollTop = msgs.scrollHeight;
 
+    if (!ANTHROPIC_API_KEY) {
+      aDiv.textContent = "Assistant IA non encore activé. Consulte l'onglet « Objections » pour les réponses types. (On branchera l'IA via une fonction serveur Supabase pour ne pas exposer la clé.)";
+      return;
+    }
     try {
       const resp = await fetch('https://api.anthropic.com/v1/messages', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: {
+          'Content-Type': 'application/json',
+          'x-api-key': ANTHROPIC_API_KEY,
+          'anthropic-version': '2023-06-01',
+          'anthropic-dangerous-direct-browser-access': 'true'
+        },
         body: JSON.stringify({
           model: 'claude-sonnet-4-6',
           max_tokens: 1000,
-          system: `Tu es l'assistant IA du CRM GM, spécialisé en rénovation énergétique et Certificats d'Économies d'Énergie (CEE). 
-Tu aides les téléprospecteurs en temps réel pendant leurs appels. 
-Réponds en français, de façon concise et pratique (2-4 phrases max). 
-Tu connais parfaitement les fiches CEE (BAR-TH-171 PAC air/eau, BAR-EN-101 isolation combles, BAR-TH-174 rénovation d'ampleur, etc.), 
-les arguments commerciaux, les réponses aux objections, et les critères d'éligibilité.`,
+          system: "Tu es l'assistant IA du CRM GM, spécialisé en rénovation énergétique et Certificats d'Économies d'Énergie (CEE). Tu aides les téléprospecteurs en temps réel pendant leurs appels. Réponds en français, de façon concise et pratique (2-4 phrases max). Tu connais les fiches CEE (BAR-TH-171 PAC air/eau, BAR-EN-101 isolation combles, BAR-TH-174 rénovation d'ampleur), les arguments commerciaux et les réponses aux objections.",
           messages: [{ role: 'user', content: question }]
         })
       });
       const data = await resp.json();
       aDiv.textContent = data.content?.[0]?.text || 'Désolé, je n\'ai pas pu répondre.';
-    } catch(e) {
-      aDiv.textContent = 'Connexion IA temporairement indisponible. Consultez l\'onglet Objections pour les réponses types.';
+    } catch (e) {
+      aDiv.textContent = "Connexion IA indisponible. Consulte l'onglet Objections.";
     }
     msgs.scrollTop = msgs.scrollHeight;
   }
