@@ -1869,30 +1869,27 @@
     msgs.appendChild(aDiv);
     msgs.scrollTop = msgs.scrollHeight;
 
-    if (!ANTHROPIC_API_KEY) {
-      aDiv.textContent = "Assistant IA non encore activé. Consulte l'onglet « Objections » pour les réponses types. (On branchera l'IA via une fonction serveur Supabase pour ne pas exposer la clé.)";
-      return;
-    }
     try {
-      const resp = await fetch('https://api.anthropic.com/v1/messages', {
+      // Appel sécurisé via l'Edge Function Supabase (la clé Anthropic reste côté serveur)
+      const resp = await fetch(SUPABASE_URL + '/functions/v1/chat-ia', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          'x-api-key': ANTHROPIC_API_KEY,
-          'anthropic-version': '2023-06-01',
-          'anthropic-dangerous-direct-browser-access': 'true'
+          'Authorization': 'Bearer ' + SUPABASE_ANON_KEY,
+          'apikey': SUPABASE_ANON_KEY
         },
-        body: JSON.stringify({
-          model: 'claude-sonnet-4-6',
-          max_tokens: 1000,
-          system: "Tu es l'assistant IA du CRM GM, spécialisé en rénovation énergétique et Certificats d'Économies d'Énergie (CEE). Tu aides les téléprospecteurs en temps réel pendant leurs appels. Réponds en français, de façon concise et pratique (2-4 phrases max). Tu connais les fiches CEE (BAR-TH-171 PAC air/eau, BAR-EN-101 isolation combles, BAR-TH-174 rénovation d'ampleur), les arguments commerciaux et les réponses aux objections.",
-          messages: [{ role: 'user', content: question }]
-        })
+        body: JSON.stringify({ question })
       });
       const data = await resp.json();
-      aDiv.textContent = data.content?.[0]?.text || 'Désolé, je n\'ai pas pu répondre.';
+      if (data.text) {
+        aDiv.textContent = data.text;
+      } else if (data.error && data.error.includes('non configuree')) {
+        aDiv.textContent = "Assistant IA pas encore activé : ajoute la clé ANTHROPIC_API_KEY dans Supabase. En attendant, consulte l'onglet « Objections ».";
+      } else {
+        aDiv.textContent = "Désolé, je n'ai pas pu répondre. Consulte l'onglet « Objections ».";
+      }
     } catch (e) {
-      aDiv.textContent = "Connexion IA indisponible. Consulte l'onglet Objections.";
+      aDiv.textContent = "Connexion à l'assistant indisponible. Consulte l'onglet Objections.";
     }
     msgs.scrollTop = msgs.scrollHeight;
   }
