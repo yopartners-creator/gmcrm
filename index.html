@@ -877,6 +877,22 @@
   .toast.ok { border-color: rgba(0,229,160,0.4); }
   .toast.err { border-color: rgba(255,74,110,0.4); color: var(--rouge); }
 
+  /* CHAMP MOT DE PASSE AVEC OEIL */
+  .pwd-wrap { position: relative; }
+  .pwd-wrap input { padding-right: 42px !important; }
+  .pwd-eye {
+    position: absolute;
+    right: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    cursor: pointer;
+    font-size: 16px;
+    opacity: 0.65;
+    user-select: none;
+    line-height: 1;
+  }
+  .pwd-eye:hover { opacity: 1; }
+
   /* SCROLLBAR */
   ::-webkit-scrollbar { width: 6px; height: 6px; }
   ::-webkit-scrollbar-track { background: transparent; }
@@ -902,7 +918,10 @@
     </div>
     <div class="form-group">
       <label>Mot de passe</label>
-      <input type="password" id="login-pwd" placeholder="••••••••">
+      <div class="pwd-wrap">
+        <input type="password" id="login-pwd" placeholder="••••••••">
+        <span class="pwd-eye" onclick="togglePwd('login-pwd', this)">👁</span>
+      </div>
     </div>
     <button class="btn-login" onclick="login()">Se connecter</button>
     <div class="login-error" id="login-error">Email ou mot de passe incorrect.</div>
@@ -1354,7 +1373,7 @@
     <div style="display:flex;flex-direction:column;gap:14px">
       <div><label>Nom complet</label><input type="text" id="setup-name" placeholder="Ton nom"></div>
       <div><label>Email</label><input type="email" id="setup-email" placeholder="admin@gmcrm.fr"></div>
-      <div><label>Mot de passe (8 caractères min)</label><input type="password" id="setup-pwd" placeholder="••••••••"></div>
+      <div><label>Mot de passe (8 caractères min)</label><div class="pwd-wrap"><input type="password" id="setup-pwd" placeholder="••••••••"><span class="pwd-eye" onclick="togglePwd('setup-pwd', this)">👁</span></div></div>
     </div>
     <div id="setup-msg" style="font-size:13px;margin-top:12px;min-height:18px"></div>
     <div class="modal-actions">
@@ -1469,6 +1488,14 @@
     t.textContent = msg;
     t.className = 'toast show ' + (type || '');
     setTimeout(() => { t.className = 'toast ' + (type || ''); }, 2800);
+  }
+
+  // Afficher / masquer un mot de passe (petit oeil)
+  function togglePwd(id, el) {
+    const i = document.getElementById(id);
+    if (!i) return;
+    if (i.type === 'password') { i.type = 'text'; el.textContent = '🙈'; }
+    else { i.type = 'password'; el.textContent = '👁'; }
   }
 
   function statutBadge(s) {
