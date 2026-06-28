@@ -906,6 +906,9 @@
     </div>
     <button class="btn-login" onclick="login()">Se connecter</button>
     <div class="login-error" id="login-error">Email ou mot de passe incorrect.</div>
+    <div style="text-align:center;margin-top:18px">
+      <span onclick="openSetup()" style="font-size:12px;color:var(--texte2);cursor:pointer;text-decoration:underline">Première configuration (créer le compte admin)</span>
+    </div>
   </div>
 </div>
 
@@ -958,6 +961,9 @@
 
       <div class="nav-section">
         <div class="nav-section-title">Admin</div>
+        <div class="nav-item admin-only" onclick="showPage('users', this)">
+          <span class="icon">👤</span> Utilisateurs
+        </div>
         <div class="nav-item" onclick="showPage('stats', this)">
           <span class="icon">📈</span> Statistiques
         </div>
@@ -1236,6 +1242,25 @@
         <div class="table-container"><div class="empty-state"><div class="icon">⚡</div><h3>Produits CEE</h3><p>Gérez vos fiches CEE actives et leurs critères d'éligibilité</p></div></div>
       </div>
 
+      <!-- UTILISATEURS (admin) -->
+      <div class="page-section" id="sec-users">
+        <div class="section-header">
+          <div class="section-title">Utilisateurs & accès</div>
+          <div style="display:flex;gap:10px">
+            <button class="btn-secondary" onclick="changeMyPassword()">🔑 Mon mot de passe</button>
+            <button class="btn-primary" onclick="openCreateUser()">+ Créer un utilisateur</button>
+          </div>
+        </div>
+        <div class="table-container">
+          <table>
+            <thead><tr><th>Utilisateur</th><th>Rôle</th><th>État</th><th>Accès</th></tr></thead>
+            <tbody id="usersBody"></tbody>
+          </table>
+        </div>
+        <div class="section-header"><div class="section-title">Connexions récentes</div><button class="btn-secondary" onclick="loadLoginEvents()">Rafraîchir</button></div>
+        <div class="card"><div id="loginEvents"><div style="color:var(--texte2);font-size:13px">Chargement…</div></div></div>
+      </div>
+
     </div>
   </div>
 </div>
@@ -1317,6 +1342,49 @@
     <div class="modal-actions">
       <button class="btn-secondary" onclick="closeAddLead()">Annuler</button>
       <button class="btn-primary" id="btn-save-lead" onclick="saveLead()">Enregistrer le lead</button>
+    </div>
+  </div>
+</div>
+
+<!-- ===== MODALE PREMIÈRE CONFIGURATION (créer admin) ===== -->
+<div class="modal-overlay" id="modal-setup">
+  <div class="modal" style="width:440px">
+    <div class="modal-title"><span>Première configuration</span><button class="modal-close" onclick="closeSetup()">×</button></div>
+    <p style="font-size:13px;color:var(--texte2);margin-bottom:18px">Crée le compte administrateur principal. Cette étape n'est possible qu'une seule fois.</p>
+    <div style="display:flex;flex-direction:column;gap:14px">
+      <div><label>Nom complet</label><input type="text" id="setup-name" placeholder="Ton nom"></div>
+      <div><label>Email</label><input type="email" id="setup-email" placeholder="admin@gmcrm.fr"></div>
+      <div><label>Mot de passe (8 caractères min)</label><input type="password" id="setup-pwd" placeholder="••••••••"></div>
+    </div>
+    <div id="setup-msg" style="font-size:13px;margin-top:12px;min-height:18px"></div>
+    <div class="modal-actions">
+      <button class="btn-secondary" onclick="closeSetup()">Annuler</button>
+      <button class="btn-primary" onclick="doSetup()">Créer l'admin</button>
+    </div>
+  </div>
+</div>
+
+<!-- ===== MODALE CRÉER UN UTILISATEUR (admin) ===== -->
+<div class="modal-overlay" id="modal-user">
+  <div class="modal" style="width:460px">
+    <div class="modal-title"><span>Nouvel utilisateur</span><button class="modal-close" onclick="closeCreateUser()">×</button></div>
+    <div class="modal-grid">
+      <div class="full"><label>Nom complet</label><input type="text" id="cu-name" placeholder="Prénom Nom"></div>
+      <div class="full"><label>Email</label><input type="email" id="cu-email" placeholder="prenom@gmcrm.fr"></div>
+      <div><label>Mot de passe (8 min)</label><input type="text" id="cu-pwd" placeholder="mot de passe initial"></div>
+      <div><label>Rôle</label>
+        <select id="cu-role">
+          <option value="telepro">Téléprospecteur</option>
+          <option value="confirmateur">Confirmateur</option>
+          <option value="secretaire">Secrétaire</option>
+          <option value="admin">Administrateur</option>
+        </select>
+      </div>
+    </div>
+    <div id="cu-msg" style="font-size:13px;margin-top:12px;min-height:18px"></div>
+    <div class="modal-actions">
+      <button class="btn-secondary" onclick="closeCreateUser()">Annuler</button>
+      <button class="btn-primary" onclick="createUser()">Créer l'utilisateur</button>
     </div>
   </div>
 </div>
@@ -1413,57 +1481,174 @@
     return `<div class="score-bar"><div class="score-track"><div class="score-fill ${scoreClass(n)}" style="width:${n}%"></div></div><div class="score-num">${n}</div></div>`;
   }
 
-  // ===== AUTH =====
-  const USERS = {
-    'admin@gmcrm.fr':       { pwd: 'gm2026', name: 'Admin GM', role: 'Administrateur' },
-    'prospecteur@gmcrm.fr': { pwd: 'gm2026', name: 'Télépro 1', role: 'Téléprospecteur' }
-  };
+  // ===== AUTH (Supabase) =====
+  let CURRENT_USER = null;
+  const ROLE_LABELS = { admin:'Administrateur', confirmateur:'Confirmateur', telepro:'Téléprospecteur', secretaire:'Secrétaire' };
+  const isAdmin = () => CURRENT_USER && CURRENT_USER.role === 'admin';
 
-  function login() {
+  async function login() {
     const email = document.getElementById('login-email').value.trim().toLowerCase();
     const pwd = document.getElementById('login-pwd').value;
     const err = document.getElementById('login-error');
-    if (USERS[email] && USERS[email].pwd === pwd) {
-      const user = USERS[email];
-      document.getElementById('user-name').textContent = user.name;
-      document.getElementById('user-role').textContent = user.role;
-      document.getElementById('user-avatar').textContent = user.name[0].toUpperCase();
-      document.getElementById('page-login').style.display = 'none';
-      document.getElementById('page-app').style.display = 'block';
-      err.style.display = 'none';
-      initApp();
-    } else {
+    err.style.display = 'none';
+    try {
+      await ensureClient();
+      const { error } = await sb.auth.signInWithPassword({ email, password: pwd });
+      if (error) throw error;
+      await afterLogin();
+    } catch (e) {
+      err.textContent = 'Email ou mot de passe incorrect.';
       err.style.display = 'block';
     }
   }
 
   document.getElementById('login-pwd').addEventListener('keydown', e => { if (e.key === 'Enter') login(); });
 
-  function logout() {
+  async function logout() {
+    try { await ensureClient(); await sb.auth.signOut(); } catch (e) {}
+    localStorage.removeItem('gm_login_day');
+    CURRENT_USER = null;
     document.getElementById('page-login').style.display = 'flex';
     document.getElementById('page-app').style.display = 'none';
   }
 
-  // ===== INIT + CHARGEMENT DES DONNÉES =====
-  async function initApp() {
-    const banner = document.getElementById('config-banner');
-    if (!isConfigured()) {
-      banner.style.display = 'block';
-      banner.innerHTML = "⚙️ <strong>Supabase pas encore configuré.</strong> Renseigne SUPABASE_URL et SUPABASE_ANON_KEY en haut du script, puis recharge la page. En attendant, le CRM affiche des données de démonstration locales.";
-      LEADS = demoLeads();
-      renderAll();
-      return;
-    }
-    banner.style.display = 'none';
+  // Après connexion réussie : profil, contrôles d'accès, données
+  async function afterLogin() {
+    await ensureClient();
+    const { data: { user } } = await sb.auth.getUser();
+    if (!user) return logout();
+    const { data: prof } = await sb.from('profiles').select('*').eq('id', user.id).single();
+    if (!prof) { toast("Profil introuvable. Contacte l'admin.", 'err'); return logout(); }
+    if (!prof.active) { toast('Compte désactivé. Contacte l\'admin.', 'err'); return logout(); }
+    CURRENT_USER = prof;
+    localStorage.setItem('gm_login_day', new Date().toDateString());
+    try { await sb.from('login_events').insert([{ user_id: user.id, email: prof.email, role: prof.role }]); } catch (e) {}
+    document.getElementById('user-name').textContent = prof.full_name || prof.email;
+    document.getElementById('user-role').textContent = ROLE_LABELS[prof.role] || prof.role;
+    document.getElementById('user-avatar').textContent = (prof.full_name || prof.email || '?')[0].toUpperCase();
+    document.getElementById('page-login').style.display = 'none';
+    document.getElementById('page-app').style.display = 'block';
+    document.querySelectorAll('.admin-only').forEach(el => { el.style.display = isAdmin() ? '' : 'none'; });
+    await loadLeads();
+    if (isAdmin()) subscribeLogins();
+  }
+
+  // Reprise de session au chargement (avec expiration quotidienne)
+  async function bootSession() {
     try {
       await ensureClient();
-      await loadLeads();
-    } catch (e) {
-      banner.style.display = 'block';
-      banner.innerHTML = "⚠️ <strong>Connexion à la base impossible.</strong> " + (e.message || e) + " Vérifie ta connexion internet puis recharge la page (les données de démo s'affichent en attendant).";
-      LEADS = demoLeads();
-      renderAll();
-    }
+      const { data: { session } } = await sb.auth.getSession();
+      if (session) {
+        const day = localStorage.getItem('gm_login_day');
+        if (day && day !== new Date().toDateString()) { await logout(); return; }
+        await afterLogin();
+      }
+    } catch (e) {}
+  }
+
+  // Première configuration : créer le compte admin (une seule fois)
+  function openSetup(){ document.getElementById('modal-setup').classList.add('open'); }
+  function closeSetup(){ document.getElementById('modal-setup').classList.remove('open'); }
+  async function doSetup() {
+    const email = document.getElementById('setup-email').value.trim().toLowerCase();
+    const pwd = document.getElementById('setup-pwd').value;
+    const name = document.getElementById('setup-name').value.trim();
+    const out = document.getElementById('setup-msg');
+    out.style.color = 'var(--texte2)'; out.textContent = 'Création...';
+    try {
+      const r = await fetch(SUPABASE_URL + '/functions/v1/bootstrap-admin', { method:'POST', headers:{'Content-Type':'application/json','Authorization':'Bearer '+SUPABASE_ANON_KEY,'apikey':SUPABASE_ANON_KEY}, body: JSON.stringify({ email, password: pwd, full_name: name }) });
+      const d = await r.json();
+      if (d.ok) { out.style.color = 'var(--vert)'; out.textContent = 'Compte admin créé ! Connecte-toi maintenant.'; setTimeout(closeSetup, 1800); }
+      else { out.style.color = 'var(--rouge)'; out.textContent = d.error || 'Erreur'; }
+    } catch (e) { out.style.color = 'var(--rouge)'; out.textContent = 'Erreur: ' + e.message; }
+  }
+
+  // Changer son propre mot de passe
+  async function changeMyPassword() {
+    const p = prompt('Nouveau mot de passe (8 caractères minimum) :');
+    if (!p) return;
+    if (p.length < 8) { toast('Trop court (8 caractères min).', 'err'); return; }
+    try { await ensureClient(); const { error } = await sb.auth.updateUser({ password: p }); if (error) throw error; toast('Mot de passe modifié ✓', 'ok'); }
+    catch (e) { toast('Erreur: ' + (e.message || e), 'err'); }
+  }
+
+  // ===== GESTION DES UTILISATEURS (admin) =====
+  let USERS_CACHE = [];
+  async function loadUsers() {
+    if (!isAdmin()) return;
+    try {
+      await ensureClient();
+      const { data, error } = await sb.from('profiles').select('*').order('created_at', { ascending: true });
+      if (error) throw error;
+      USERS_CACHE = data || [];
+      renderUsers();
+      loadLoginEvents();
+    } catch (e) { toast('Erreur chargement utilisateurs: ' + (e.message || e), 'err'); }
+  }
+  function renderUsers() {
+    const body = document.getElementById('usersBody');
+    if (!body) return;
+    body.innerHTML = USERS_CACHE.map(u => `
+      <tr>
+        <td><div class="lead-name">${esc(u.full_name || '—')}</div><div class="lead-info">${esc(u.email||'')}</div></td>
+        <td><select class="filter-select" onchange="setUserRole('${u.id}', this.value)">${Object.keys(ROLE_LABELS).map(k => `<option value="${k}" ${k===u.role?'selected':''}>${ROLE_LABELS[k]}</option>`).join('')}</select></td>
+        <td>${u.active ? '<span class="status-badge status-rdv">Actif</span>' : '<span class="status-badge status-nrp">Désactivé</span>'}</td>
+        <td><button class="btn-secondary" onclick="toggleUserActive('${u.id}', ${u.active})">${u.active ? 'Couper l’accès' : 'Réactiver'}</button></td>
+      </tr>`).join('') || '<tr><td colspan="4"><div class="empty-state"><p>Aucun utilisateur</p></div></td></tr>';
+  }
+  function openCreateUser() {
+    ['cu-name','cu-email','cu-pwd'].forEach(id => document.getElementById(id).value='');
+    document.getElementById('cu-role').value='telepro';
+    document.getElementById('cu-msg').textContent='';
+    document.getElementById('modal-user').classList.add('open');
+  }
+  function closeCreateUser(){ document.getElementById('modal-user').classList.remove('open'); }
+  async function createUser() {
+    const full_name = document.getElementById('cu-name').value.trim();
+    const email = document.getElementById('cu-email').value.trim().toLowerCase();
+    const password = document.getElementById('cu-pwd').value;
+    const role = document.getElementById('cu-role').value;
+    const out = document.getElementById('cu-msg');
+    if (!email || !password) { out.style.color='var(--rouge)'; out.textContent='Email et mot de passe requis.'; return; }
+    if (password.length < 8) { out.style.color='var(--rouge)'; out.textContent='Mot de passe : 8 caractères minimum.'; return; }
+    out.style.color='var(--texte2)'; out.textContent='Création...';
+    try {
+      await ensureClient();
+      const { data: { session } } = await sb.auth.getSession();
+      const r = await fetch(SUPABASE_URL + '/functions/v1/admin-create-user', { method:'POST', headers:{'Content-Type':'application/json','Authorization':'Bearer '+(session?session.access_token:SUPABASE_ANON_KEY),'apikey':SUPABASE_ANON_KEY}, body: JSON.stringify({ email, password, full_name, role }) });
+      const d = await r.json();
+      if (d.ok) { out.style.color='var(--vert)'; out.textContent='Utilisateur créé ✓'; await loadUsers(); setTimeout(closeCreateUser, 1200); }
+      else { out.style.color='var(--rouge)'; out.textContent = d.error || 'Erreur'; }
+    } catch (e) { out.style.color='var(--rouge)'; out.textContent='Erreur: '+e.message; }
+  }
+  async function setUserRole(id, role) {
+    try { await ensureClient(); const { error } = await sb.from('profiles').update({ role }).eq('id', id); if (error) throw error; toast('Rôle mis à jour ✓','ok'); loadUsers(); }
+    catch (e) { toast('Erreur: '+(e.message||e),'err'); }
+  }
+  async function toggleUserActive(id, current) {
+    try { await ensureClient(); const { error } = await sb.from('profiles').update({ active: !current }).eq('id', id); if (error) throw error; toast(current?'Accès coupé ✓':'Accès rétabli ✓','ok'); loadUsers(); }
+    catch (e) { toast('Erreur: '+(e.message||e),'err'); }
+  }
+  async function loadLoginEvents() {
+    if (!isAdmin()) return;
+    try {
+      await ensureClient();
+      const { data } = await sb.from('login_events').select('*').order('created_at',{ascending:false}).limit(20);
+      const el = document.getElementById('loginEvents');
+      if (el) el.innerHTML = (data||[]).map(e => `<div style="display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid var(--border);font-size:12px"><span><strong>${esc(e.email||'?')}</strong> · ${esc(ROLE_LABELS[e.role]||e.role||'')}</span><span style="color:var(--texte2)">${new Date(e.created_at).toLocaleString('fr-FR')}</span></div>`).join('') || '<div style="color:var(--texte2);font-size:13px">Aucune connexion enregistrée.</div>';
+    } catch (e) {}
+  }
+  let loginsSub = null;
+  function subscribeLogins() {
+    try {
+      if (loginsSub || !sb.channel) return;
+      loginsSub = sb.channel('logins').on('postgres_changes', { event:'INSERT', schema:'public', table:'login_events' }, (payload) => {
+        const e = payload.new || {};
+        if (CURRENT_USER && e.user_id === CURRENT_USER.id) return;
+        toast('🔔 Connexion : ' + (e.email||'?') + ' (' + (ROLE_LABELS[e.role]||e.role||'') + ')', 'ok');
+        loadLoginEvents();
+      }).subscribe();
+    } catch (e) {}
   }
 
   async function loadLeads() {
@@ -1757,6 +1942,7 @@
         toast('Lead mis à jour ✓', 'ok');
       } else {
         data.source = 'Saisie manuelle';
+        if (CURRENT_USER) data.owner_id = CURRENT_USER.id;
         const { error } = await sb.from('leads').insert([data]);
         if (error) throw error;
         toast('Lead créé ✓', 'ok');
@@ -1828,10 +2014,11 @@
       dashboard: 'Tableau de bord', leads: 'Leads', pipeline: 'Pipeline',
       fiche: 'Fiche prospect', scripts: 'Scripts + IA',
       rdvs: 'Rendez-vous', dossiers: 'Dossiers CEE', clients: 'Clients',
-      stats: 'Statistiques', produits: 'Produits CEE'
+      stats: 'Statistiques', produits: 'Produits CEE', users: 'Utilisateurs & accès'
     };
     document.getElementById('topbar-title').textContent = titles[page] || page;
     if (navEl) navEl.classList.add('active');
+    if (page === 'users') loadUsers();
   }
 
   // ===== SCRIPTS TABS =====
@@ -1893,6 +2080,9 @@
     }
     msgs.scrollTop = msgs.scrollHeight;
   }
+
+  // ===== DÉMARRAGE : reprise de session éventuelle =====
+  bootSession();
 </script>
 
 </body>
