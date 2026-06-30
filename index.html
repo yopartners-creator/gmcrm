@@ -1785,10 +1785,14 @@
   }
 
   // ===== FICHE =====
+  const RELANCE_LABELS = { nouveau_j1:'Relance nouveau (J+1)', nouveau_j4:'Relance nouveau (J+4)', contacte_j1:'Relance contacté (J+1)', contacte_j3:'Relance contacté (J+3)', contacte_j7:'Relance contacté (J+7)', rdv_confirmation:'Confirmation RDV', devis_j2:'Suivi devis (J+2)', devis_j5:'Suivi devis (J+5)', devis_j10:'Suivi devis (J+10)', nrp_premier:'Premier NRP', nrp_j2:'NRP (J+2)', nrp_j5:'NRP (J+5)', signe_merci:'Remerciement' };
+
   function openFiche(id) {
     const l = LEADS.find(x => String(x.id) === String(id));
     if (!l) return;
     currentFicheId = id;
+    let rdvVal = '';
+    if (l.rdv_date) { try { rdvVal = new Date(new Date(l.rdv_date).getTime() - new Date().getTimezoneOffset()*60000).toISOString().slice(0,16); } catch(e){} }
     const c = document.getElementById('ficheContent');
     c.innerHTML = `
       <div class="section-header">
@@ -1870,6 +1874,20 @@
             </div>
           </div>
           <div class="card">
+            <div class="card-title">Rendez-vous technicien</div>
+            <label style="font-size:11px;font-weight:600;color:var(--texte2);text-transform:uppercase;display:block;margin-bottom:6px">Date & heure</label>
+            <input type="datetime-local" id="fiche-rdv-date" class="search-input" style="width:100%;margin-bottom:10px" value="${rdvVal}">
+            <label style="font-size:11px;font-weight:600;color:var(--texte2);text-transform:uppercase;display:block;margin-bottom:6px">Adresse</label>
+            <input type="text" id="fiche-rdv-adresse" class="search-input" style="width:100%;margin-bottom:12px" placeholder="12 rue des Lilas, 93000 Bobigny" value="${esc(l.rdv_adresse || '')}">
+            <button class="btn-primary" style="width:100%" onclick="saveRdv('${l.id}')">📅 Confirmer le RDV</button>
+          </div>
+
+          <div class="card">
+            <div class="card-title">Relances envoyées</div>
+            <div id="fiche-relances" style="font-size:12px;color:var(--texte2)">Chargement…</div>
+          </div>
+
+          <div class="card">
             <div class="card-title">Actions</div>
             <button class="btn-secondary" style="width:100%;margin-bottom:10px" onclick="editFiche('${l.id}')">✏️ Modifier la fiche</button>
             <button class="btn-secondary" style="width:100%;color:var(--rouge)" onclick="deleteLead('${l.id}')">🗑️ Supprimer le lead</button>
@@ -1877,6 +1895,33 @@
         </div>
       </div>`;
     showPage('fiche', null);
+    loadFicheRelances(id);
+  }
+
+  async function saveRdv(id) {
+    const dateVal = document.getElementById('fiche-rdv-date').value;
+    const adr = document.getElementById('fiche-rdv-adresse').value.trim();
+    const upd = { statut: 'rdv', rdv_adresse: adr || null };
+    if (dateVal) upd.rdv_date = new Date(dateVal).toISOString();
+    try {
+      await ensureClient();
+      const { error } = await sb.from('leads').update(upd).eq('id', id);
+      if (error) throw error;
+      toast('RDV confirmé ✓ — email de confirmation programmé', 'ok');
+      await loadLeads();
+      openFiche(id);
+    } catch (e) { toast('Erreur : ' + (e.message || e), 'err'); }
+  }
+
+  async function loadFicheRelances(id) {
+    const el = document.getElementById('fiche-relances');
+    if (!el) return;
+    try {
+      await ensureClient();
+      const { data } = await sb.from('relances').select('*').eq('lead_id', id).order('created_at', { ascending: false });
+      if (!data || !data.length) { el.textContent = 'Aucune relance envoyée pour l\'instant.'; return; }
+      el.innerHTML = data.map(r => `<div style="display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px solid var(--border)"><span>${esc(RELANCE_LABELS[r.scenario] || r.scenario)} <span style="color:var(--texte3)">· ${esc(r.channel)}</span></span><span style="color:var(--texte2)">${new Date(r.created_at).toLocaleDateString('fr-FR')}</span></div>`).join('');
+    } catch (e) { el.textContent = 'Historique indisponible.'; }
   }
 
   function ficheCEE(produit) {
