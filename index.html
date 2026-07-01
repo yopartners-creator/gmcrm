@@ -1498,6 +1498,24 @@
     else { i.type = 'password'; el.textContent = '👁'; }
   }
 
+  // ===== APPEL RINGOVER (cliquer-pour-appeler) =====
+  async function ringoverCall(phone) {
+    if (!phone) { toast('Aucun numéro de téléphone.', 'err'); return; }
+    try {
+      await ensureClient();
+      const { data: { session } } = await sb.auth.getSession();
+      toast('📞 Appel en cours — votre téléphone Ringover va sonner…', 'ok');
+      const r = await fetch(SUPABASE_URL + '/functions/v1/ringover-call', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + (session ? session.access_token : SUPABASE_ANON_KEY), 'apikey': SUPABASE_ANON_KEY },
+        body: JSON.stringify({ to: phone })
+      });
+      const d = await r.json();
+      if (d.ok) { toast('✅ Appel lancé — décrochez votre téléphone Ringover.', 'ok'); }
+      else { toast('Erreur appel : ' + (d.error || d.body || 'échec'), 'err'); }
+    } catch (e) { toast('Erreur : ' + (e.message || e), 'err'); }
+  }
+
   function statutBadge(s) {
     const st = STATUTS[s] || STATUTS.nouveau;
     return `<span class="status-badge ${st.badge}">${esc(st.label)}</span>`;
@@ -1801,8 +1819,8 @@
           <div class="section-title">${esc(l.nom)}</div>
         </div>
         <div style="display:flex;gap:10px">
-          ${l.telephone ? `<a class="btn-secondary" href="tel:${esc(l.telephone.replace(/\\s/g,''))}">📞 Appeler</a>` : ''}
-          <button class="btn-primary" onclick="editFiche('${l.id}')">✏️ Modifier</button>
+          ${l.telephone ? `<button class="btn-primary" onclick="ringoverCall('${esc(l.telephone)}')">📞 Appeler (Ringover)</button>` : ''}
+          <button class="btn-secondary" onclick="editFiche('${l.id}')">✏️ Modifier</button>
         </div>
       </div>
       <div class="fiche-grid">
